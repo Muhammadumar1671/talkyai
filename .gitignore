@@ -1,5 +1,5 @@
 # Ignore the .env file
-talkyai/.env
+.env
 
 # Ignore the virtual environment directory
 venv/
