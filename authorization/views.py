@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
 from .serializers import UserSerializer
 from .models import User
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from .tokens import account_activation_token
 from django.contrib.auth import get_user_model, authenticate, logout
 from django.middleware.csrf import get_token
@@ -102,3 +102,14 @@ def login_signup(request):
 def logout_view(request):
     logout(request)
     return Response({'message': 'Logout successful'}, status=status.HTTP_200_OK)
+
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def is_valid_token(request):
+    return Response({'message': 'Valid token'}, status=status.HTTP_200_OK)
+
+
+
+    

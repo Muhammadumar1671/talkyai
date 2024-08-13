@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot Interface</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #212529;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.1);
+
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+            padding: 15px;
+            position: relative;
+        }
+
+        .bot-pic-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .bot-pic-container img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            max-width: 75%;
+            display: flex;
+            align-items: center;
+            word-wrap: break-word;
+            word-break: break-word;
+            box-sizing: border-box;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: grey;
+            color: #212529;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: grey;
+            color: #212529;
+            display: flex;
+            align-items: center;
+        }
+
+        .bot-message img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-top: 1px solid #ccc;
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 15px;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #212529;
+            transition: border-color 0.3s;
+        }
+
+        .input-container input:focus {
+            border-color: black;
+        }
+
+        .input-container button {
+            padding: 8px 12px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: background-color 0.3s, transform 0.3s;
+            outline: none;
+            margin-left: 8px;
+        }
+
+        .input-container button:hover {
+            background-color: grey;
+            transform: scale(1.05);
+        }
+
+        .loading-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 16px;
+            color: #007bff;
+            display: none;
+        }
+
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container" id="chat-content">
+        <div class="bot-pic-container">
+            <img src="/static/chatbot/img-chat-bot/botpic.svg" alt="Bot Picture">
+        </div>
+    </div>
+    <div class="input-container disabled" id="input-container">
+        <input type="text" id="user-input" placeholder="Text message" disabled>
+        <button onclick="sendMessage()" disabled>➤</button>
+        <button class="delete-button" onclick="deleteAllChats()">🗑</button>
+    </div>
+
+    <div id="loading-text" class="loading-text">Loading...</div>
+
+    <script>
+        // Function to retrieve CSRF token from cookies
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // CSRF token variable
+        const csrftoken = getCookie('csrftoken');
+
+        // Function to get query parameters
+        function getQueryParameter(name) {
+            const url = new URL(window.location.href);
+                let pathnames = url.pathname.split('/');
+                let urlKey = pathnames[pathnames.length - 1];
+                return urlKey;
+        }
+
+        const botId = getQueryParameter('bot_id');
+
+        let previousQuestion = '';
+        let previousResponse = '';
+
+        function displayMessage(message, isUser = true) {
+            const chatContent = document.getElementById('chat-content');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            messageDiv.classList.add(isUser ? 'user-message' : 'bot-message');
+
+            if (!isUser) {
+                const botIcon = document.createElement('img');
+                botIcon.src = '/static/chatbot/img-chat-bot/botpic.svg';
+                messageDiv.appendChild(botIcon);
+            }
+
+            const messageText = document.createElement('span');
+            messageText.textContent = message;
+            messageDiv.appendChild(messageText);
+
+            chatContent.appendChild(messageDiv);
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const userInput = document.getElementById('user-input');
+            const message = userInput.value;
+
+            if (!message.trim()) {
+                return;
+            }
+
+            displayMessage(message, true);
+            userInput.value = '';
+            toggleLoading(true);
+
+            const response = await fetch('/chatbot/get-bot-response/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,  // Include CSRF token in headers
+                },
+                body: JSON.stringify({
+                    question: message,
+                    previousquestion: previousQuestion,
+                    previousresponse: previousResponse,
+                    key: botId
+                }),
+            });
+
+            const data = await response.json();
+            toggleLoading(false);
+
+            if (data.response) {
+                displayMessage(data.response, false);
+
+                // Update previous question and response after receiving the bot's response
+                previousQuestion = message;
+                previousResponse = data.response;
+            }
+        }
+
+        function toggleLoading(show) {
+            const loadingText = document.getElementById('loading-text');
+            loadingText.style.display = show ? 'block' : 'none';
+        }
+
+        function enableInput() {
+            const inputContainer = document.getElementById('input-container');
+            inputContainer.classList.remove('disabled');
+
+            document.getElementById('user-input').disabled = false;
+            document.querySelector('.input-container button').disabled = false;
+        }
+
+        async function loadPreviousMessages() {
+            const response = await fetch(`/chatbot/load-previous-messages/${botId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,  // Include CSRF token in headers
+                },
+            });
+
+            const data = await response.json();
+            const messages = data.messages;
+
+            messages.forEach(msg => {
+                displayMessage(msg.message, msg.sender === 'user');
+            });
+        }
+
+        async function deleteAllChats() {
+            const response = await fetch(`/chatbot/delete-chat/${botId}/`, {
+                method: 'POST',  // Use POST instead of GET for delete requests
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken,  // Include CSRF token in headers
+                },
+            });
+
+            if (response.ok) {
+                const chatContent = document.getElementById('chat-content');
+                const botPicContainer = document.querySelector('.bot-pic-container');
+                chatContent.innerHTML = '';
+                chatContent.appendChild(botPicContainer);
+                displayMessage("Hello! How can I assist you today?", false);
+            } else {
+                displayMessage("Failed to delete chats. Please try again.", false);
+            }
+        }
+
+        window.onload = async function () {
+            const response = await fetch(`/chatbot/bot/${botId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,  // Include CSRF token in headers
+                },
+            });
+            const data = await response.json();
+
+            if (data.response === 'Bot initialized successfully.') {
+                enableInput();
+                displayMessage("Hello! How can I assist you today?", false);
+                await loadPreviousMessages();
+            } else {
+                displayMessage("Failed to initialize bot. Please try again later.", false);
+            }
+        };
+    </script>
+</body>
+
+</html>

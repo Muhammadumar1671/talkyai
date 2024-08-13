@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from decouple import config
+#rom decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -31,7 +31,7 @@ INSTALLED_APPS = [
     'authorization',
     'chatbot',
     'rest_framework.authtoken',
-    'rest_framework_simplejwt',
+    'celery'
 ]
 
 REST_FRAMEWORK = {
@@ -127,6 +127,8 @@ USE_TZ = True
 ASE_DIR = Path(__file__).resolve().parent.parent
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
@@ -137,5 +139,24 @@ EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'apikey'  # This is the string 'apikey'
-EMAIL_HOST_PASSWORD = config('SENDGRID_API_KEY')
+EMAIL_HOST_PASSWORD = os.environ.get('SENDGRID_API_KEY')
 DEFAULT_FROM_EMAIL = 'info@learnity.store'
+
+
+# talkyai/settings.py
+# talkyai/talkyai/settings.py
+
+# talkyai/talkyai/settings.py
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+
+# Other Celery settings as needed
+
+
+# Other Celery settings as needed

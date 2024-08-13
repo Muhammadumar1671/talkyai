@@ -3,11 +3,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="{% static 'chatbot/favicon.svg' %}">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Tech Real</title>
+    <title>Talky AI</title>
     <style>
         * {
             margin: 0;
@@ -74,6 +75,13 @@
         }
         .left-profile #toggle-theme {
             border: none;
+        }
+        .left-profile img {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .left-profile img:hover {
+            transform: scale(1.1);
         }
         .main-content {
             padding-top: 100px;
@@ -184,15 +192,17 @@
                         <h1 class="tech-realm">TechRealm</h1>
                     </div>
                     <div class="left-profile">
-                        <button class="dashboard-button">Dashboard</button>
+                        <button class="dashboard-button" onclick="DashboardPage()">Dashboard</button>
                         <button id="toggle-theme" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
+                        <img src="{% static 'chatbot/img/logout.svg' %}" onclick="logout()" alt="logout">
+                        
                     </div>
                 </div>
                 
                 <div class="main-content">
                     <h1>Steamship builds <br>ready-to-hire</h1>
                     <p>Our first is an Influencer Marketing Manager. <br>Always working to grow your marketing campaigns.</p>
-                    <button class="btn btn-primary mr-2">Sign up for Beta Access</button>
+                    <button class="btn btn-primary mr-2" onclick="CreateBot()">Sign up for Beta Access</button>
                     <h6>Looking for Our SDK?</h6>
                 </div>
             </div>
@@ -273,6 +283,32 @@
                 themeButton.innerHTML = sunIcon;
             }
         }
+        function DashboardPage() {
+            window.location.href = "/chatbot/dashboard";
+        }
+        function CreateBot() {
+            window.location.href = "/chatbot/create_bot/";
+        }
+        function logout() {
+            fetch('/logout', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    document.cookie = 'csrftoken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                    window.location.href = '/';
+                } else {
+                    console.error('Logout failed');
+                }
+            })
+            .catch(error => {
+                console.error('An error occurred:', error);
+            });
+        }
     </script>
 </body>
 </html>
+

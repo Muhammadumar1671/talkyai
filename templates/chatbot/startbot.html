@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    {% load static %}
+    <link rel="icon" type="image/svg+xml" href="{% static 'chatbot/favicon.svg' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Bot</title>
+    <link rel="stylesheet" href="{% static 'chatbot/css/editbot.css' %}?v=1.0" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+  </head>
+  <body class="dark-mode">
+    <div class="main-section2">
+      <div class="container">
+        <div class="nav-bar2">
+          <div class="logo2">
+            <img src="{% static 'chatbot/img-edit-bot/logo.png' %}" alt="lg1" />
+            <img src="{% static 'chatbot/img-edit-bot/TechRealm.png' %}" alt="logo-text" />
+          </div>
+          <div class="left-profile2">
+            <button id="togle">Docs guide</button>
+            <button id="toggle-button">
+              <i class="fa-regular fa-moon"></i>
+            </button>
+            <img src="{% static 'chatbot/img-edit-bot/profile.png' %}" alt="profile" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="Main-chat-box2" style="margin-top: 50px;">
+      <div class="container">
+        <div class="chat-prefix2">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="sidebar-custom">
+                <li class="item-hover">Overview</li>
+                <div class="icon-group">
+                    <i class="fa-solid fa-message"></i>
+                    <a id="chat-link" href="#">Chat</a>
+                </div>
+                <li class="item-hover">Manage</li>
+                <div class="icon-group">
+                    <p>>_</p>
+                    <a id="api-link" href="#">API</a>
+                </div>
+                <div class="icon-group">
+                    <i class="fa-solid fa-file"></i>
+                    <a id="file-link" href="#">File</a>
+                </div>
+                <div class="icon-group">
+                    <i class="fa-solid fa-gear"></i>
+                    <a id="setting-link" href="#">Setting</a>
+                </div>
+                <li class="item-hover">Connect</li>
+                <div class="icon-group">
+                    <i class="fa-brands fa-telegram"></i>
+                    <a href="#about">Telegram</a>
+                </div>
+                <div class="icon-group">
+                    <i class="fa-brands fa-slack"></i>
+                    <a href="#about">Slack</a>
+                </div>
+                <div class="icon-group">
+                    <i class="fa-solid fa-caret-up"></i>
+                    <a href="#about">Vercel</a>
+                </div>
+                <div class="icon-group">
+                    <i class="fa-solid fa-laptop"></i>
+                    <a href="#about">Embed</a>
+                </div>
+            </div>
+            
+           
+             
+            
+            </div>
+            <div class="col-md-10">
+              <div class="file-content">
+                <h3>Chat history</h3>
+                <hr>
+                <!-- Add iframe here -->
+                <iframe id="chatbot-iframe" width="100%" height="600" style="border:none;"></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="techrealm2">
+      <div class="container">
+        <div class="tech-rel2">
+          <img src="{% static 'chatbot/img-edit-bot/realm.png' %}" alt="realm" />
+          <br />
+          <img src="{% static 'chatbot/img-edit-bot/TechRealm.png' %}" alt="realm-logo" />
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="ft-content2">
+              <h5>Docs guide</h5>
+              <p>AI has the potential to change the world. Help us democratize AI.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ft-content2">
+              <h5>Newsletter</h5>
+              <p>Get daily updates to your inbox. Subscribe to our newsletter today!</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ft-content2">
+              <h5>Social Media</h5>
+              <div class="social-logo">
+                <img src="{% static 'chatbot/img-edit-bot/twitter.png' %}" alt="twitter" />
+                <img src="{% static 'chatbot/img-edit-bot/insta.png' %}" alt="insta" />
+                <img src="{% static 'chatbot/img-edit-bot/telegram.png' %}" alt="telegram" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-end2">
+          <p>&copy; 2024 TechRealm. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Extract bot ID from URL and set iframe src
+      const url = new URL(window.location.href);
+      const pathnames = url.pathname.split('/');
+      const key = pathnames[pathnames.length - 1];
+      document.getElementById('chatbot-iframe').src = `/chatbot/startbot/${key}`;
+      document.getElementById('chat-link').href = `/chatbot/start-bot/${key}`;
+      document.getElementById('file-link').href = `/chatbot/edit_bot/${key}`;
+      document.getElementById('setting-link').href = `/chatbot/hub/${key}`;
+
+    </script>
+  </body>
+</html>
