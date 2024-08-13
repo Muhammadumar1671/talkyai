@@ -117,7 +117,7 @@ def check_educationRelated(text):
 
 def youtubelinks(api_key , search_query):
     
-    search_query = 'igcse , maths , mean and sets'
+    search_query = search_query
 
     # URL for the YouTube Data API search endpoint
     url = f'https://www.googleapis.com/youtube/v3/search?part=snippet&q={search_query}&type=video&key={api_key}'
