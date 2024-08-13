@@ -33,7 +33,7 @@ def signup(request):
 
     if User.objects.filter(email=email).exists():
         return Response({'error': 'Email already exists. Please use a different email.'}, status=status.HTTP_400_BAD_REQUEST)
-
+    
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()

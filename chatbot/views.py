@@ -101,8 +101,8 @@ def Create_Agent(request):
     try:
         data = request.data
         name = data.get('name')
-        if name.lower() == 'igcse':
-            return Response({'error': 'Model name is reserved'}, status=status.HTTP_400_BAD_REQUEST)
+        # if name.lower() == 'igcse':
+        #     return Response({'error': 'Model name is reserved'}, status=status.HTTP_400_BAD_REQUEST)
         botPurpose = data.get('purpose')
         botData = data.get('data')
         key_instance = Key(user=request.user, model_name = name)
@@ -125,8 +125,8 @@ def Create_Agent(request):
 def list_keys(request):
     try:
         # Fetch the keys related to the authenticated user
-        #keys = Key.objects.filter(user=request.user)
-        keys = Key.objects.filter(user=request.user).exclude(model_name='igcse')
+        keys = Key.objects.filter(user=request.user)
+        #keys = Key.objects.filter(user=request.user).exclude(model_name='igcse')
 
         
         # Combine hash_key and model_name into a single list of dictionaries
