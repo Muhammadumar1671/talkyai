@@ -1,0 +1,314 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="{% static 'chatbot/favicon.svg' %}">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Talky AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body.dark-mode {
+            background-color: black;
+            color: white;
+        }
+        body.light-mode {
+            background-color: white;
+            color: black;
+        }
+        .main-section {
+            background-color: inherit;
+        }
+        .main-img {
+            width: 100%;
+            background-image: url('{% static 'chatbot/img/bg.svg' %}');
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .white-box {
+            position: relative;
+            background-color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px; /* Added margin-right */
+        }
+        .inside-box {
+            width: 50px;
+            height: 50px;
+        }
+        .left-profile {
+            display: flex;
+            align-items: center;
+        }
+        .left-profile button {
+            padding: 5px 20px;
+            background-color: transparent;
+            color: inherit;
+            border-radius: 50px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        .left-profile .dashboard-button {
+            border: 2px solid;
+            border-image: linear-gradient(to right, #4facfe, #00f2fe) 1;
+        }
+        .left-profile #toggle-theme {
+            border: none;
+        }
+        .left-profile img {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .left-profile img:hover {
+            transform: scale(1.1);
+        }
+        .main-content {
+            padding-top: 100px;
+            padding-bottom: 100px;
+            text-align: center;
+        }
+        .main-content h1 {
+            padding-top: 70px;
+            padding-bottom: 70px;
+            color: inherit;
+        }
+        .main-content p {
+            padding-top: 20px;
+            padding-bottom: 20px;
+            color: inherit;
+        }
+        .main-content h6 {
+            color: inherit;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        .techrealm {
+            background-color: inherit;
+            padding-top: 70px;
+            padding-bottom: 70px;
+        }
+        .social-logo img {
+            padding: 10px;
+        }
+        footer {
+            padding-top: 40px;
+            padding-bottom: 80px;
+            background-color: inherit;
+        }
+        .ft-content {
+            color: inherit;
+        }
+        .footer-end {
+            text-align: center;
+            color: inherit;
+        }
+        .tech-realm {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 30px;
+            line-height: 150%;
+            color: inherit;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .nav-bar {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .logo {
+                flex-direction: column;
+                align-items: center;
+            }
+            .left-profile {
+                margin-top: 10px;
+            }
+            .main-content {
+                padding-top: 50px;
+                padding-bottom: 50px;
+            }
+            .main-content h1 {
+                padding-top: 40px;
+                padding-bottom: 40px;
+            }
+            .main-content p, .main-content h6 {
+                padding-top: 10px;
+                padding-bottom: 10px;
+            }
+            .techrealm {
+                padding-top: 50px;
+                padding-bottom: 50px;
+            }
+            footer {
+                padding-top: 20px;
+                padding-bottom: 40px;
+            }
+            .ft-content {
+                text-align: center;
+                padding: 10px 0;
+            }
+            .white-box {
+                width: 40px;
+                height: 40px;
+            }
+            .inside-box {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <div class="main-section">
+        <div class="main-img">
+            <div class="container">
+                <div class="nav-bar">
+                    <div class="logo">
+                        <div class="white-box">
+                            <img src="{% static 'chatbot/img/realm.svg' %}" class="inside-box" alt="realm">
+                        </div>
+                        <h1 class="tech-realm">TechRealm</h1>
+                    </div>
+                    <div class="left-profile">
+                        <button class="dashboard-button" onclick="DashboardPage()">Dashboard</button>
+                        <button id="toggle-theme" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
+                        <img src="{% static 'chatbot/img/logout.svg' %}" onclick="logout()" alt="logout">
+                        
+                    </div>
+                </div>
+                
+                <div class="main-content">
+                    <h1>Steamship builds <br>ready-to-hire</h1>
+                    <p>Our first is an Influencer Marketing Manager. <br>Always working to grow your marketing campaigns.</p>
+                    <button class="btn btn-primary mr-2" onclick="CreateBot()">Sign up for Beta Access</button>
+                    <h6>Looking for Our SDK?</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="techrealm">
+        <div class="container">
+            <div class="tech-rel">
+                <div class="white-box">
+                    <img src="{% static 'chatbot/img/realm.svg' %}" class="inside-box" alt="realm">
+                </div>
+                <h1 class="tech-realm">TechRealm</h1>
+
+                <br>
+
+                <div class="social-logo">
+                    <img src="{% static 'chatbot/img/logo1.svg' %}" alt="logo1">
+                    <img src="{% static 'chatbot/img/logo2.svg' %}" alt="logo2">
+                    <img src="{% static 'chatbot/img/logo3.svg' %}" alt="logo3">
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 col-6">
+                    <div class="ft-content">
+                        <h5>Product</h5>
+                        <p>Templates <br>Integration <br>Workspace</p>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6">
+                    <div class="ft-content">
+                        <h5>Company</h5>
+                        <p>Jobs <br>Newsletter <br>Brand Assets</p>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6">
+                    <div class="ft-content">
+                        <h5>Features</h5>
+                        <p>Agent SDK <br>Infrastructure <br>Storage</p>
+                    </div>
+                </div> 
+                <div class="col-md-2 col-6">
+                    <div class="ft-content">
+                        <h5>Legal</h5>
+                        <p>Privacy Policy <br>Terms of Service <br>Copyright</p>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6">
+                    <div class="ft-content">
+                        <h5>Learn</h5>
+                        <p>Documentation <br>Pricing</p>
+                    </div>
+                </div>
+            </div>
+            <hr style="width:100%;text-align:left;margin-left:0 ;color:white;">
+        </div>
+        <div class="footer-end">
+            <p>© 2024 TechRealm, Inc. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeButton = document.getElementById('toggle-theme');
+            const sunIcon = '<i class="fas fa-sun"></i>';
+            const moonIcon = '<i class="fas fa-moon"></i>';
+            
+            if (body.classList.contains('dark-mode')) {
+                body.classList.remove('dark-mode');
+                body.classList.add('light-mode');
+                themeButton.innerHTML = moonIcon;
+            } else {
+                body.classList.remove('light-mode');
+                body.classList.add('dark-mode');
+                themeButton.innerHTML = sunIcon;
+            }
+        }
+        function DashboardPage() {
+            window.location.href = "/chatbot/dashboard";
+        }
+        function CreateBot() {
+            window.location.href = "/chatbot/create_bot/";
+        }
+        function logout() {
+            fetch('/logout', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    document.cookie = 'csrftoken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                    window.location.href = '/';
+                } else {
+                    console.error('Logout failed');
+                }
+            })
+            .catch(error => {
+                console.error('An error occurred:', error);
+            });
+        }
+    </script>
+</body>
+</html>
+

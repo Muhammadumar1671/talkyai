@@ -1,0 +1,338 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="{% static 'chatbot/favicon.svg' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IGCSE</title>
+    <link rel="stylesheet" href="{% static 'chatbot/css/editbot.css' %}?v=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+    <style>
+        .file-content {
+            margin-top: 50px;
+        }
+
+        .bot-pic-container{
+            display: flex;
+            justify-content: center;
+            margin-bottom: 10px;
+            width: 40px;
+            height: 40px;
+        }
+        .chat-container {
+            width: 100%;
+            max-width: 800px;
+            height: 500px;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            align-items: center;
+            overflow-y: auto;
+            padding: 15px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: #6e6e6e;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 5px 0;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: #6e6e6e;
+            color: #333;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 5px 0;
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 0 auto;
+            justify-content: flex-end;
+            background: rgba(255, 255, 255, 0.1);
+            border-top: 1px solid #ccc;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 10px;
+        }
+
+        .input-container input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 15px;
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: border-color 0.3s;
+        }
+
+        .input-container input:focus {
+            border-color: black;
+        }
+
+        .input-container button {
+            padding: 8px;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            border-radius: 15px;
+            outline: none;
+            margin-left: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .input-container .button-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .voice, .delete-button, .send-button {
+            background-color: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .button-icon {
+            font-size: 20px;
+        }
+    </style>
+  </head>
+  <body class="dark-mode">
+    <div class="main-section2">
+      <div class="container">
+        <div class="nav-bar2">
+          <div class="logo2">
+            <img src="{% static 'chatbot/img-edit-bot/logo.png' %}" alt="lg1" />
+            <img src="{% static 'chatbot/img-edit-bot/TechRealm.png' %}" alt="logo-text" />
+          </div>
+          <div class="left-profile2">
+            <button id="togle">Docs guide</button>
+            <button id="toggle-button">
+              <i class="fa-regular fa-moon"></i>
+            </button>
+            <img src="{% static 'chatbot/img-edit-bot/profile.png' %}" alt="profile" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="Main-chat-box2">
+      <div class="container">
+        <div class="chat-prefix2">
+          <div class="file-content">
+            <h3>IGCSE Bot</h3>
+            <p>Instructions: Provide the subject, topic and query to get Comprehensive Explanations</p>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-container">
+        <div class="bot-pic-container">
+            <img src="/static/chatbot/img-chat-bot/botpic.svg" alt="Bot Picture">
+        </div>
+        <!-- Messages will go here -->
+    </div>
+    <div class="input-container">
+        <input type="text" id="user-input" placeholder="Type a message...">
+        <button class="voice" onclick="VoiceInput()">
+            <i class="fas fa-microphone button-icon"></i>
+        </button>
+        <button class="delete-button" onclick="deleteAllChats()">
+            <i class="fas fa-trash-alt button-icon"></i>
+        </button>
+        <button class="send-button" onclick="sendMessage()">
+            <i class="fas fa-paper-plane button-icon"></i>
+        </button>
+    </div>
+
+    <div class="techrealm2">
+      <div class="container">
+        <div class="tech-rel2">
+          <img src="{% static 'chatbot/img-edit-bot/realm.png' %}" alt="realm" />
+          <br />
+          <img src="{% static 'chatbot/img-edit-bot/TechRealm.png' %}" alt="realm-logo" />
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="ft-content2">
+              <h5>Docs guide</h5>
+              <p>AI has the potential to change the world. Help us democratize AI.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ft-content2">
+              <h5>Newsletter</h5>
+              <p>Get daily updates to your inbox. Subscribe to our newsletter today!</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="ft-content2">
+              <h5>Social Media</h5>
+              <div class="social-logo">
+                <img src="{% static 'chatbot/img-edit-bot/twitter.png' %}" alt="twitter" />
+                <img src="{% static 'chatbot/img-edit-bot/insta.png' %}" alt="insta" />
+                <img src="{% static 'chatbot/img-edit-bot/telegram.png' %}" alt="telegram" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-end2">
+          <p>&copy; 2024 TechRealm. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          // Display the bot's initial message
+          addBotMessage("Hi, I'm your virtual tutor for today. Please specify your Subject, topic, and your query for help.");
+  
+          // Function to handle sending the message
+          window.sendMessage = function() {
+              const messageInput = document.getElementById('user-input');
+              const message = messageInput.value.trim();
+              if (message !== "") {
+                  addUserMessage(message);
+                  messageInput.value = "";
+                  showLoadingIndicator();
+  
+                  // Send the message to the chatbot/igcse-response endpoint
+                  fetch('/chatbot/igcse-response/', {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/json',
+                          'X-CSRFToken': getCookie('csrftoken')
+                      },
+                      body: JSON.stringify({ question: message })
+                  })
+                  .then(response => response.json())
+                  .then(data => {
+                      hideLoadingIndicator();
+                      const botResponse = data.response || "I'm sorry, I couldn't process your request.";
+                      addBotMessage(botResponse);
+                  })
+                  .catch(error => {
+                      hideLoadingIndicator();
+                      addBotMessage("There was an error processing your request. Please try again.");
+                      console.error('Error:', error);
+                  });
+              }
+          };
+  
+          // Function to handle adding bot messages
+          function addBotMessage(message) {
+              const chatContainer = document.querySelector('.chat-container');
+              const messageElement = document.createElement('div');
+              messageElement.className = 'message bot-message';
+              messageElement.innerText = message;
+              chatContainer.appendChild(messageElement);
+              chatContainer.scrollTop = chatContainer.scrollHeight;
+          }
+  
+          // Function to handle adding user messages
+          function addUserMessage(message) {
+              const chatContainer = document.querySelector('.chat-container');
+              const messageElement = document.createElement('div');
+              messageElement.className = 'message user-message';
+              messageElement.innerText = message;
+              chatContainer.appendChild(messageElement);
+              chatContainer.scrollTop = chatContainer.scrollHeight;
+          }
+  
+          // Function to show loading indicator
+          function showLoadingIndicator() {
+              const chatContainer = document.querySelector('.chat-container');
+              const loadingElement = document.createElement('div');
+              loadingElement.className = 'message bot-message loading-message';
+              loadingElement.id = 'loading-indicator';
+              loadingElement.innerText = 'Loading...';
+              chatContainer.appendChild(loadingElement);
+              chatContainer.scrollTop = chatContainer.scrollHeight;
+          }
+  
+          // Function to hide loading indicator
+          function hideLoadingIndicator() {
+              const loadingElement = document.getElementById('loading-indicator');
+              if (loadingElement) {
+                  loadingElement.remove();
+              }
+          }
+  
+          // Function to delete all chat messages
+          window.deleteAllChats = function() {
+              const chatContainer = document.querySelector('.chat-container');
+              chatContainer.innerHTML = '';
+          };
+  
+          // Voice input functionality
+          window.VoiceInput = function() {
+              const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+              recognition.lang = 'en-US';
+              recognition.interimResults = false;
+              recognition.maxAlternatives = 1;
+  
+              recognition.start();
+  
+              recognition.onresult = function(event) {
+                  const voiceMessage = event.results[0][0].transcript;
+                  document.getElementById('user-input').value = voiceMessage;
+                  sendMessage();
+              };
+  
+              recognition.onerror = function(event) {
+                  alert('Voice input error: ' + event.error);
+              };
+          };
+          function getCookie(name) {
+          const cookies = document.cookie ? document.cookie.split(';') : [];
+          for (const cookie of cookies) {
+              const trimmedCookie = cookie.trim();
+              if (trimmedCookie.startsWith(`${name}=`)) {
+                  return decodeURIComponent(trimmedCookie.substring(name.length + 1));
+              }
+          }
+          return null;
+      }
+      });
+  </script>
+  </body>
+</html>
