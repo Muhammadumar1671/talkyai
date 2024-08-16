@@ -160,3 +160,4 @@ CELERY_TIMEZONE = 'UTC'
 
 
 # Other Celery settings as needed
+X_FRAME_OPTIONS = 'ALLOWALL'

@@ -3,532 +3,20 @@
 <!DOCTYPE html>
 <html lang="en">
     <link rel="icon" type="image/svg+xml" href="{% static 'chatbot/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'chatbot/css/createbot.css' %}?v=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 
-<style>
-   *{
-    margin: 0%;
-    padding: 0%;
-}
-.main-section{
-    background-color: black;
-    padding-top: 20px;
-}
-.nav-bar{
-    padding-top:10px;
-    padding-bottom: 10px;
-    padding-left:40px;
-    padding-right: 40px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 40px;
-    background-color: #595959;
-}
-.bg-logo{
-    background-color: white;
-    padding: 5px;
-    border-radius: 5px;
-}
-.logo1{
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    color: white;
-}
-.logo-text h2{
-    
-/* font-family: 'Poppins'; */
-font-style: normal;
-font-weight: 600;
-font-size: 30px;
-line-height: 150%;
-color: #FFFFFF;
-}
-ul{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 120px;
-}
-  li {
-    padding-top: 10px;
-    list-style: none;
-}
-a{
-    text-decoration: none;
-    color: white;
 
-}
-.nav-items{
-    display: flex;
-    gap: 120px;
-    align-items: center;
-    color: #ddd;  
-    justify-content: center;
-      
-}
-
-.inner-image{
-    display: flex;
-    justify-content: center;
-    position: relative;
-}
-.btn-doc button{
-background-color: #595959;
-border: none;
-color: #FFFFFF;
-}
-
-.header-content{
-    padding-top: 250px;
-    padding-bottom: 250px;
-}
-.head-left h1{
-    font-size:88px;
-    font-family: "Roboto", sans-serif;
-  font-weight: 700;
-  font-style: bold;
-    color: white;
-}
-.head-left p{
-    color: white;
-}
-.image img{
-position: absolute;
-top: 310px;
-right: 410px;
-}
-.image1 img{
-    width: 100%;
-    object-fit: cover;
-}
-.image2{
-    position: absolute;
-    top: 100px;
-    left: 380px;
-    
-}
-.staters-section{
-    width: 100%;
-   background-color: black;
-}
-.stater-content{
-    text-align: left;
-    color: white;
-    padding-top: 20px;
-    padding-bottom: 20px;
-
-}
-.inner-stater{
-    padding-top:30px;
-    padding-bottom:30px;
-    padding-left: 69px;
-    padding-right: 69px;
-border-radius: 20px;
-background-size: 1600px 1200px;
-background-repeat: no-repeat;
-background-position:center;
-    border: 1px solid rgb(175, 175, 236);
-}
-.inner-area{
-    padding-top:55px;
-    padding-bottom:55px;
-    padding-left: 69px;
-    padding-right: 69px;
-    background-color: #59595941;
-    border: 1px solid rgb(83, 83, 83);
-    border-radius:12px;
-    width:100%;
-}
-.card{
-background-color: #5959597e;
-display: flex;
-justify-content: center;
-}
-.card img{
-    padding-top: 36px;
-    padding-left: 55px;
-    padding-right: 21px;
-    
-}
- .card-icons{
-    display: flex;
-    justify-content: center;
-}
-.card-text{
-    text-align: center;
-    color: white;
-}
-
-.community-section1{
-    padding-top:135px;
-    padding-bottom:135px;
-
-    background-color: black;
-}
-.inner-stater1{
-    width: 80%;
-    display: flex;
-    margin: auto;
-}
-.community-content1{
-    color: white;
-}
-.card-text h6{
-    padding-top: 40px;
-}
-.card1-img{
-    display: flex;
-    justify-content: center;
-    padding-top: 36px;
-        padding-left: 21px;
-        padding-right: 21px;
-}
-.card1{
-    margin-top: 30px;
-    background-color: #5959597e;
-    border-radius: 8px;
-    
-    }
-    
-    .card1-icons{
-        display: flex;
-        justify-content: center;
-        gap: 10px;      
-  padding-bottom: 20px;
-    }
-    .card1-text{
-        text-align: center;
-        color: white;
-    }
-    .card1-text h6{
-        padding-top: 20px;
-    }
-    
-.left-profile i{
-    font-size: 20px;
-    color: aliceblue;
-   
-
-}
-.left-profile button{
-    padding:2px 5px 5px 5px;
-background-color: transparent;
-color: white;
-border: none;
-}
-.main-content{
-    padding-top: 100px;
-    padding-bottom: 100px;
-    text-align: center;
-}
-.main-content h1{
-    padding-top: 70px;
-    padding-bottom: 70px;
-
-color: white;
-}
-.main-content p{
-    padding-top: 20px;
-    padding-bottom: 20px;
-
-    color: white;
-}
-.main-content h6{
-    color: white;
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-.techrealm{
-    background-color: black;
-    padding-top: 70px;
-    padding-bottom: 70px;
-
-}
-.bg-logo1{
-    width: 50px;
-padding-top: 10px;
-padding-bottom: 10px;
-padding-left: 7px;
-border-radius: 10px;
-    background-color: #FFFFFF;
-}
-.tech-rel img{
-    padding-top:20px;
-}
-.social-logo img{
-padding: 10px;
-}
-footer{
-    padding-top: 40px;
-    padding-bottom: 80px;
-    background-color: black;
-}
-.ft-content{
-    color: white;
-}
-.footer-end{
-    text-align: center;
-    color: aliceblue;
-}
-
-
-#docsButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    color: white;
-    border: none;
-    background-color: rgb(80, 131, 243);
-    border-radius: 5px;
-}
-#createagent {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 80%;
-    max-height: 80%;
-    overflow-y: auto;
-}
-#closeButton {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-h2 {
-    text-align: center;
-    color: #333;
-}
-label {
-    display: block;
-    margin-bottom: 5px;
-    color: #666;
-}
-
-/* Container styles */
-.unique-container {
-    display: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #000000;
-
-}
-
-/* Form styles */
-.unique-form-content {
-    display: none;
-    position: relative;
-    background: rgba(31, 31, 31, 0.85);
-    padding: 40px 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    animation: slideDown 0.5s ease-in-out;
-    width: 450px;
-}
-
-.unique-form-label {
-    color: #ffffff;
-    margin-bottom: 8px;
-    display: block;
-}
-
-.unique-form-control {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #ffffff;
-    border: 1px solid #777;
-    border-radius: 5px;
-    backdrop-filter: blur(50px);
-    padding: 10px;
-    margin-bottom: 15px;
-    width: 100%;
-}
-
-.unique-form-control::placeholder {
-    color: #aaaaaa;
-}
-
-.unique-form-control:focus {
-    background-color: rgba(0, 0, 0, 0.75);
-    border: 1px solid #999;
-    outline: none;
-}
-
-.unique-btn-primary,
-.unique-btn-secondary {
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
-    color: #ffffff;
-    font-size: 16px;
-    margin-right: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.unique-btn-primary {
-    background-color: #444444 ;
-}
-
-.unique-btn-primary:hover {
-    background-color: #555555;
-    transform: scale(1.05);
-}
-
-.unique-btn-secondary {
-    background-color: #444444;
-}
-
-.unique-btn-secondary:hover {
-    background-color: #555555;
-    transform: scale(1.05);
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-#bot-keys-dropdown-container {
-            position: relative;
-            display: inline-block;
-            margin-left: 20px;
-        }
-
-        #unique-edit-bot-id {
-            padding: 5px 10px;
-            font-size: 14px;
-            color: #ffffff; /* White text for the options */
-            background-color: #6c757d; /* Grey background */
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            appearance: none;
-            outline: none;
-            cursor: pointer;
-            width: 150px; /* Adjusted width for a smaller box */
-            height: 30px; /* Adjusted height */
-        }
-
-        #unique-edit-bot-id:focus {
-            border-color: #80bdff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-        }
-
-        #unique-edit-bot-id option {
-            padding: 8px;
-            background-color: #ffffff;
-            color: #333;
-            font-size: 16px;
-        }
-        .containers-starters {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 containers per row */
-    gap: 20px; /* Space between containers */
-    justify-content: space-around;
-    margin-top: 20px;
-    width: 100%;
-}
-
-.containers {
-    position: relative;
-    background: rgb(35, 35, 35);
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Increased shadow for a futuristic look */
-    padding: 20px;
-    text-align: center;
-    transition: transform 0.3s;
-    cursor: pointer;
-}
-
-.containers:hover {
-    transform: scale(1.05);
-}
-
-.containers img {
-    width: 100px;
-    height: auto;
-    margin-bottom: 10px;
-}
-
-.containers p {
-    font-size: 18px;
-    color: #ffffff; /* Dark grey text color */
-}
-
-.createAgentButton {
-    background: linear-gradient(to right, #1e3c72, #2a5298);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.hubButton {
-    background: linear-gradient(to right, #1e3c72, #2a5298);
-    color: white;
-    border: none;
-    padding: 12px 24px; /* Slightly larger padding */
-    font-size: 18px; /* Slightly larger font size */
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.createAgentButton:hover,
-.hubButton:hover {
-    background: linear-gradient(to right, #2a5298, #1e3c72);
-}
-
-.delete-icon {
-    position: absolute;
-    top: 8px;
-    right: 20px;
-    width: 32px; /* Increase size for testing */
-    height: 32px;
-    cursor: pointer;
-    z-index: 1000;
-    color: #000000; /* Ensure it’s visible */
-}
-
-
-
-       
-
-
-</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <title>Tech Real</title>
+    <title>Create Your Own Bot</title>
 </head>
-<body>
+<body class="body">
     <div class="main-section">
         <div class="container">
             <div class="nav-bar">
@@ -548,6 +36,9 @@ label {
                     <div class="btn-doc">
                         <button>Doc guide</button>
                     </div>
+                    
+                    <img class='logout' src="{% static 'chatbot/img/logout.svg' %}" onclick="logout()" alt="logout">
+
                 </div>
             </div>
         </div>
@@ -562,7 +53,6 @@ label {
                                 <div class="left-profile">
                                     <button class="createAgentButton" id="createAgentButton">Create Agent</button>
                                     <button class="hubButton" id="hubButton">Hub</button>
-                                    <button class="hubButton" id="igcse">IGCSE</button>
                                 </div>
                             </div>
                             
@@ -596,10 +86,8 @@ label {
                         <div class="head-right">
                             <div class="inner-image">
                                 <div class="image">
-                                    <img src="{% static 'chatbot/img-create-bot/img1.svg' %}" alt="img1">
                                 </div>
                                 <div class="image1">
-                                    <img src="{% static 'chatbot/img-create-bot/img2.svg' %}" alt="img2">
                                 </div>
                                 <div class="image2">
                                     <img src="{% static 'chatbot/img-create-bot/img6.svg' %}" alt="img3">
@@ -623,16 +111,21 @@ label {
             </div>
 
         </div>
+        <div class="footer-logo-container">
+            <div class="footer-logo" style="flex-direction: column; align-items: center; margin-top: 40px;">
+                <div class="footer-logo-image">
+                    <img src="{% static 'chatbot/img-create-bot/logo.svg' %}" alt="logo">
+                </div>
+                <div class="footer-logo-text">
+                    <h2>TechRealm</h2>
+                </div>
+            </div>
+        </div>
+        
+    
+
         <div class="techrealm">
             <div class="container">
-                <div class="logo2">
-                    <div class="bg-logo1">
-                        <img id="img" src="{% static 'chatbot/img-create-bot/logo.svg' %}" alt="logo">
-                    </div>
-                    <div class="logo-text">
-                        <h2>TechRealm</h2>
-                    </div>
-                </div>
                 <div class="social-logo">
                     <img src="{% static 'chatbot/img-create-bot/logo1.svg' %}" alt="logo1">
                     <img src="{% static 'chatbot/img-create-bot/logo2.svg' %}" alt="logo2">
@@ -681,163 +174,8 @@ label {
             <p>© 2024 TechRealm, Inc. All rights reserved.</p>
         </div>
     </footer>
+    <script src="{% static 'chatbot/script/createbot.js' %}?v=1.0"></script>
+    <script src="{% static 'chatbot/script/logout.js' %}"></script>
 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const response = await fetch('/chatbot/list-keys/');
-        if (!response.ok) throw new Error('Error fetching keys');
-
-        const data = await response.json();
-        const containerParent = document.querySelector('.containers-starters');
-        const svgFiles = ['prompt1.svg', 'prompt2.svg', 'prompt3.svg'];
-
-        if (data.length > 0) {
-            data.forEach(item => {
-                // Create the container div
-                const containerDiv = document.createElement('div');
-                containerDiv.className = 'containers';
-                containerDiv.setAttribute('data-prompt', item.model_name);
-
-                // Create the delete icon using Font Awesome
-                const deleteIcon = document.createElement('i');
-                console.log(deleteIcon);
-
-                deleteIcon.className = "fas fa-trash-alt delete-icon"
-                ; // Font Awesome 'times' icon
-
-                // Add delete functionality
-                deleteIcon.addEventListener('click', async (event) => {
-                    event.stopPropagation(); // Prevent triggering the container click event
-                    const confirmDelete = confirm('Are you sure you want to delete this bot?');
-                    if (confirmDelete) {
-                        try {
-                            const deleteResponse = await fetch(`/chatbot/delete-key/${item.hash_key}/`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'X-CSRFToken': getCookie('csrftoken')
-                                }
-                            });
-
-                            if (deleteResponse.ok) {
-                                alert('Bot deleted successfully.');
-                                containerDiv.remove(); // Remove the container from the DOM
-                            } else {
-                                alert('Failed to delete bot.');
-                            }
-                        } catch (error) {
-                            console.error('Error deleting bot:', error);
-                            alert('An unexpected error occurred.');
-                        }
-                    }
-                });
-
-                // Select a random SVG
-                const randomSvg = svgFiles[Math.floor(Math.random() * svgFiles.length)];
-
-                // Create the img element
-                const imgElement = document.createElement('img');
-                imgElement.src = `/static/chatbot/img-create-bot/${randomSvg}`;
-                imgElement.alt = `Prompt for ${item.model_name}`;
-
-                // Create the paragraph element
-                const paragraphElement = document.createElement('p');
-                paragraphElement.textContent = item.model_name;
-
-                // Append delete icon, img, and paragraph to the container
-                containerDiv.appendChild(deleteIcon);
-                containerDiv.appendChild(imgElement);
-                containerDiv.appendChild(paragraphElement);
-
-                // Add click event to redirect to the start bot page
-                containerDiv.addEventListener('click', () => {
-                    window.location.href = `/chatbot/start-bot/${item.hash_key}`;
-                });
-
-                // Append the container to the parent div
-                containerParent.appendChild(containerDiv);
-            });
-        } else {
-            console.log('No keys available.');
-        }
-    } catch (error) {
-        console.error('Error fetching keys:', error);
-    }
-});
-document.getElementById('createAgentButton').addEventListener('click', () => {
-            const headerContent = document.getElementById('header-content');
-            const formContent = document.getElementById('form-content');
-            headerContent.style.display = 'none';
-            formContent.style.display = 'block';
-        });
-    
-        document.getElementById('hubButton').addEventListener('click', () => {
-            window.location.href = '/chatbot/hub/';
-        });
-        document.getElementById('igcse').addEventListener('click', () => {
-            window.location.href = '/chatbot/igcse/';
-        });
-        document.getElementById('cancelButton').addEventListener('click', () => {
-            const headerContent = document.getElementById('header-content');
-            const formContent = document.getElementById('form-content');
-            formContent.style.display = 'none';
-            headerContent.style.display = 'block';
-        });
-    
-        document.getElementById('createAgentForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-    
-            const botName = document.getElementById('botName').value.trim();
-            const botPurpose = document.getElementById('botPurpose').value.trim();
-            const botData = document.getElementById('botData').value.trim();
-    
-            if (!botName || !botPurpose || !botData) {
-                alert('All fields are required!');
-                return;
-            }
-    
-            try {
-    const storeKeyResponse = await fetch('/chatbot/create_agent/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify({ name: botName, purpose: botPurpose, data: botData })
-    });
-
-    if (storeKeyResponse.ok) {
-        const responseData = await storeKeyResponse.json();
-
-        // Show success message
-        alert(responseData.message);
-
-        // Redirect to the next screen
-        window.location.href = `/chatbot/edit_bot/${responseData.id}`;
-    } else {
-        const errorData = await storeKeyResponse.json(); // Parse the error response
-        alert('Error creating agent: ' + errorData.error); // Alert the exact error message
-    }
-} catch (error) {
-    console.error('Fetch Error:', error);
-    alert('An unexpected error occurred.');
-}
- });
-    
-
-function getCookie(name) {
-    const cookies = document.cookie ? document.cookie.split(';') : [];
-    for (const cookie of cookies) {
-        const trimmedCookie = cookie.trim();
-        if (trimmedCookie.startsWith(`${name}=`)) {
-            return decodeURIComponent(trimmedCookie.substring(name.length + 1));
-        }
-    }
-    return null;
-}
-
-
-    </script>
-    
+ 
 </html>

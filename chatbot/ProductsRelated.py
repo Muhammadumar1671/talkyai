@@ -29,6 +29,14 @@ class ProductClassifier:
         chain = self._create_chain(prompt_template)
         response = chain.run(inputs)
         return response.strip()
+    
+    def extract_keywords(self, text:str) -> str:
+        prompt_template = '''
+        From the given text below, extract the 3 best keywords that could be used to search youtube for relevant videos. For example 'Trigonometry'.
+        Text: "{text}"'''
+        inputs = {"text": text}
+        response = self.classify_text(inputs, prompt_template)
+        return response
      
     def igcse_prompt_generate(self, text:str) -> str:
         prompt_template = """
@@ -115,29 +123,42 @@ def check_educationRelated(text):
     return is_related
 
 
-def youtubelinks(api_key , search_query):
-    
+def youtubelinks( api_key , search_query):
+
+        
     search_query = search_query
 
-    # URL for the YouTube Data API search endpoint
+        # URL for the YouTube Data API search endpoint
     url = f'https://www.googleapis.com/youtube/v3/search?part=snippet&q={search_query}&type=video&key={api_key}'
+
 
     # Make the request to the YouTube Data API
     response = requests.get(url)
-
+ 
     # Parse the response as JSON
     data = response.json()
+ 
 
     # Extract video links
     video_links = []
     for item in data['items']:
+        print(item)
         video_id = item['id']['videoId']
         video_url = f'https://www.youtube.com/watch?v={video_id}'
         video_links.append(video_url)
-
+        
+        
+    print(video_links)
     return video_links
 
 
+
+
+def extract_words(text):
+    api_key = os.getenv('OPENAI_API_KEY')
+    classifier = ProductClassifier(api_key)
+    keywords = classifier.extract_keywords(text)
+    return keywords
 
 
 # def GetFullAnalytics():

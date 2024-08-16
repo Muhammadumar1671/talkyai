@@ -12,6 +12,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
 
     <style>
+
+    
+  .chat-button1 {
+    background-color: transparent;
+    color: #fff; /* Adjust text color as needed */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Smooth transition for hover */
+}
+
+.chat-button1:hover {
+    background-color: rgba(255, 255, 255, 0.3); /* Darken on hover */
+}
+.tts-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+
         .file-content {
             margin-top: 50px;
         }
@@ -26,8 +51,10 @@
         .chat-container {
             width: 100%;
             max-width: 800px;
+        
             height: 500px;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: transparent;
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
             margin: 0 auto;
@@ -38,6 +65,23 @@
             position: relative;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
+        .messages-container {
+            flex: 1; /* This allows the messages to grow and take up available space */
+            width: 100%;
+            overflow-y: auto; /* Allows scrolling for messages */
+            padding-bottom: 20px; /* Adds space at the bottom to prevent overlap */
+        }
+
+            .button-container {
+                display: flex;
+                justify-content: space-around;
+                padding: 10px;
+                background-color: transparent;
+                z-index: 1010;
+                width: 100%;
+                position: relative; /* Changed from absolute to relative */
+            }
 
         .bot-message {
             align-self: flex-start;
@@ -124,215 +168,451 @@
         .button-icon {
             font-size: 20px;
         }
+       
+
+        .button-container button {
+            margin: 0 5px;
+        }
+
+     
     </style>
   </head>
   <body class="dark-mode">
-    <div class="main-section2">
-      <div class="container">
-        <div class="nav-bar2">
-          <div class="logo2">
-            <img src="{% static 'chatbot/img-edit-bot/logo.png' %}" alt="lg1" />
-            <img src="{% static 'chatbot/img-edit-bot/TechRealm.png' %}" alt="logo-text" />
-          </div>
-          <div class="left-profile2">
-            <button id="togle">Docs guide</button>
-            <button id="toggle-button">
-              <i class="fa-regular fa-moon"></i>
-            </button>
-            <img src="{% static 'chatbot/img-edit-bot/profile.png' %}" alt="profile" />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="Main-chat-box2">
-      <div class="container">
-        <div class="chat-prefix2">
-          <div class="file-content">
-            <h3>IGCSE Bot</h3>
-            <p>Instructions: Provide the subject, topic and query to get Comprehensive Explanations</p>
-            <hr>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <div class="chat-container">
         <div class="bot-pic-container">
             <img src="/static/chatbot/img-chat-bot/botpic.svg" alt="Bot Picture">
         </div>
+            <div class="messages-container">
+                <!-- Chat messages will go here -->
+            </div>
+            <div class="button-container">
+                <!-- Buttons will go here -->
+        </div>
         <!-- Messages will go here -->
     </div>
     <div class="input-container">
         <input type="text" id="user-input" placeholder="Type a message...">
-        <button class="voice" onclick="VoiceInput()">
+        <button class="voice" onclick="VoiceInput()" id="voice">
             <i class="fas fa-microphone button-icon"></i>
         </button>
-        <button class="delete-button" onclick="deleteAllChats()">
+        <button class="delete-button" onclick="deleteAllChats()" id="delete-button">
             <i class="fas fa-trash-alt button-icon"></i>
         </button>
-        <button class="send-button" onclick="sendMessage()">
+        <button class="send-button" onclick="sendMessage()" id="send-button">
             <i class="fas fa-paper-plane button-icon"></i>
         </button>
     </div>
 
-    <div class="techrealm2">
-      <div class="container">
-        <div class="tech-rel2">
-          <img src="{% static 'chatbot/img-edit-bot/realm.png' %}" alt="realm" />
-          <br />
-          <img src="{% static 'chatbot/img-edit-bot/TechRealm.png' %}" alt="realm-logo" />
-        </div>
-      </div>
-    </div>
-
-    <footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <div class="ft-content2">
-              <h5>Docs guide</h5>
-              <p>AI has the potential to change the world. Help us democratize AI.</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="ft-content2">
-              <h5>Newsletter</h5>
-              <p>Get daily updates to your inbox. Subscribe to our newsletter today!</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="ft-content2">
-              <h5>Social Media</h5>
-              <div class="social-logo">
-                <img src="{% static 'chatbot/img-edit-bot/twitter.png' %}" alt="twitter" />
-                <img src="{% static 'chatbot/img-edit-bot/insta.png' %}" alt="insta" />
-                <img src="{% static 'chatbot/img-edit-bot/telegram.png' %}" alt="telegram" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="footer-end2">
-          <p>&copy; 2024 TechRealm. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-          // Display the bot's initial message
-          addBotMessage("Hi, I'm your virtual tutor for today. Please specify your Subject, topic, and your query for help.");
-  
-          // Function to handle sending the message
-          window.sendMessage = function() {
-              const messageInput = document.getElementById('user-input');
-              const message = messageInput.value.trim();
-              if (message !== "") {
-                  addUserMessage(message);
-                  messageInput.value = "";
-                  showLoadingIndicator();
-  
-                  // Send the message to the chatbot/igcse-response endpoint
-                  fetch('/chatbot/igcse-response/', {
-                      method: 'POST',
-                      headers: {
-                          'Content-Type': 'application/json',
-                          'X-CSRFToken': getCookie('csrftoken')
-                      },
-                      body: JSON.stringify({ question: message })
-                  })
-                  .then(response => response.json())
-                  .then(data => {
-                      hideLoadingIndicator();
-                      const botResponse = data.response || "I'm sorry, I couldn't process your request.";
-                      addBotMessage(botResponse);
-                  })
-                  .catch(error => {
-                      hideLoadingIndicator();
-                      addBotMessage("There was an error processing your request. Please try again.");
-                      console.error('Error:', error);
-                  });
-              }
-          };
-  
-          // Function to handle adding bot messages
-          function addBotMessage(message) {
-              const chatContainer = document.querySelector('.chat-container');
-              const messageElement = document.createElement('div');
-              messageElement.className = 'message bot-message';
-              messageElement.innerText = message;
-              chatContainer.appendChild(messageElement);
-              chatContainer.scrollTop = chatContainer.scrollHeight;
-          }
-  
-          // Function to handle adding user messages
-          function addUserMessage(message) {
-              const chatContainer = document.querySelector('.chat-container');
-              const messageElement = document.createElement('div');
-              messageElement.className = 'message user-message';
-              messageElement.innerText = message;
-              chatContainer.appendChild(messageElement);
-              chatContainer.scrollTop = chatContainer.scrollHeight;
-          }
-  
-          // Function to show loading indicator
-          function showLoadingIndicator() {
-              const chatContainer = document.querySelector('.chat-container');
-              const loadingElement = document.createElement('div');
-              loadingElement.className = 'message bot-message loading-message';
-              loadingElement.id = 'loading-indicator';
-              loadingElement.innerText = 'Loading...';
-              chatContainer.appendChild(loadingElement);
-              chatContainer.scrollTop = chatContainer.scrollHeight;
-          }
-  
-          // Function to hide loading indicator
-          function hideLoadingIndicator() {
-              const loadingElement = document.getElementById('loading-indicator');
-              if (loadingElement) {
-                  loadingElement.remove();
-              }
-          }
-  
-          // Function to delete all chat messages
-          window.deleteAllChats = function() {
-              const chatContainer = document.querySelector('.chat-container');
-              chatContainer.innerHTML = '';
-          };
-  
-          // Voice input functionality
-          window.VoiceInput = function() {
-              const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-              recognition.lang = 'en-US';
-              recognition.interimResults = false;
-              recognition.maxAlternatives = 1;
-  
-              recognition.start();
-  
-              recognition.onresult = function(event) {
-                  const voiceMessage = event.results[0][0].transcript;
-                  document.getElementById('user-input').value = voiceMessage;
-                  sendMessage();
-              };
-  
-              recognition.onerror = function(event) {
-                  alert('Voice input error: ' + event.error);
-              };
-          };
-          function getCookie(name) {
-          const cookies = document.cookie ? document.cookie.split(';') : [];
-          for (const cookie of cookies) {
-              const trimmedCookie = cookie.trim();
-              if (trimmedCookie.startsWith(`${name}=`)) {
-                  return decodeURIComponent(trimmedCookie.substring(name.length + 1));
-              }
-          }
-          return null;
-      }
-      });
-  </script>
+        document.addEventListener('DOMContentLoaded', () => {
+            stopSpeech();
+            displayInitialBotMessage();
+          let  latestBotResponse = '';
+            function displayInitialBotMessage() {
+                addBotMessage("Hi, I'm your virtual tutor for today. Please specify your Subject, topic, and your query for help.");
+            }
+
+            function setMessage(message) {
+                latestBotResponse = message;
+            }
+            function getMessage() {
+                return latestBotResponse;
+            }
+    
+            window.sendMessage = function() {
+                const message = getMessageInputValue();
+                if (message) {
+                    processUserMessage(message);
+                }
+            };
+    
+            function getMessageInputValue() {
+                const messageInput = document.getElementById('user-input');
+                const message = messageInput.value.trim();
+                messageInput.value = "";
+                return message;
+            }
+    
+            function processUserMessage(message) {
+                addUserMessage(message);
+                showLoadingIndicator();
+                sendEducationalCheckRequest(message);
+            }
+    
+            function sendEducationalCheckRequest(message) {
+                fetch('/chatbot/is-educational/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ question: message })
+                })
+                .then(response => response.json())
+                .then(data => handleEducationalCheckResponse(data, message))
+                .catch(handleError);
+            }
+    
+            function handleEducationalCheckResponse(data, message) {
+                hideLoadingIndicator();
+                const botResponse = data.response || "I'm sorry, I couldn't process your request.";
+                if (botResponse === true) {
+                    displayActionButtons(message);
+                } else {
+                    addBotMessage(botResponse);
+                }
+            }
+    
+            function handleError(error) {
+                hideLoadingIndicator();
+                addBotMessage("There was an error processing your request. Please try again.");
+                console.error('Error:', error);
+            }
+    
+            function addBotMessage(message) {
+    const chatContainer = document.querySelector('.chat-container');
+    const messageElement = document.createElement('div');
+    messageElement.className = 'message bot-message';
+    messageElement.innerText = message;
+
+    // Create a TTS button
+    const ttsButton = document.createElement('button');
+    ttsButton.className = 'tts-button';
+    ttsButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+    ttsButton.onclick = function() {
+        if (ttsButton.querySelector('i').classList.contains('fa-volume-up')) {
+    speakMessage(message);
+    ttsButton.innerHTML = '<i class="fas fa-volume-mute"></i>';
+} else {
+    stopSpeech();
+    ttsButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+}
+
+    };
+
+    // Append TTS button to the message element
+    messageElement.appendChild(ttsButton);
+    chatContainer.appendChild(messageElement);
+    scrollChatToBottom(chatContainer);
+}
+
+    
+            function addUserMessage(message) {
+                const chatContainer = document.querySelector('.chat-container');
+                const messageElement = document.createElement('div');
+                messageElement.className = 'message user-message';
+                messageElement.innerText = message;
+                chatContainer.appendChild(messageElement);
+                scrollChatToBottom(chatContainer);
+            }
+    
+            function showLoadingIndicator() {
+                const chatContainer = document.querySelector('.chat-container');
+                const loadingElement = document.createElement('div');
+                loadingElement.className = 'message bot-message loading-message';
+                loadingElement.id = 'loading-indicator';
+                loadingElement.innerText = 'Loading...';
+                chatContainer.appendChild(loadingElement);
+                scrollChatToBottom(chatContainer);
+            }
+    
+            function hideLoadingIndicator() {
+                const loadingElement = document.getElementById('loading-indicator');
+                if (loadingElement) {
+                    loadingElement.remove();
+                }
+            }
+    
+            function scrollChatToBottom(container) {
+                container.scrollTop = container.scrollHeight;
+            }
+    
+            window.deleteAllChats = function() {
+                const chatContainer = document.querySelector('.chat-container');
+                while (chatContainer.children.length > 2) {
+                    chatContainer.removeChild(chatContainer.lastChild);
+                    setMessage('');
+                    stopSpeech();
+                }
+                addBotMessage("Hi, I'm your virtual tutor for today. Please specify your Subject, topic, and your query for help.")
+                reEnableInputElements();
+            };
+    
+    function displayActionButtons(message) {
+    disableInputElements();
+    const buttonContainer = createButtonContainer(className = 'button-container');
+
+    if (getMessage().includes("explanation") || getMessage().includes("explain")) {
+        ExplainMessage = "Do you want further clarifications?";
+    }
+    else {
+        ExplainMessage = "Do you want me to explain the concept";
+    }
+
+    const explainButton = createButton(ExplainMessage, () => {
+        reEnableInputElements();
+        addUserMessage("Yes, Please explain the concept!");
+        requestExplanation(message);
+        buttonContainer.remove();
+    });
+
+    const solveButton = createButton("Do you want me to solve a question for you?", () => {
+        disableInputElements();
+        buttonContainer.remove();
+        addAttachmentIcon(message);
+    });
+
+    // Check if the bot's latest response is related to an explanation
+    if (getMessage().includes("explanation") || getMessage().includes("explain")) {
+        const recommendButton = createButton("Do you want me to recommend videos?", () => {
+            reEnableInputElements();
+            addUserMessage("Yes, Please recommend some videos!");
+            const latestMessage = getMessage();
+            requestRecommendation(latestMessage);
+            buttonContainer.remove();
+        });
+        appendButtonsToContainer(buttonContainer, [explainButton, solveButton, recommendButton]);
+    } else {
+        appendButtonsToContainer(buttonContainer, [explainButton, solveButton]);
+    }
+
+    appendButtonContainerToChat(buttonContainer);
+}
+
+    
+            function addAttachmentIcon(previousMessage) {
+                const chatContainer = document.querySelector('.chat-container');
+                const attachmentLabel = document.createElement('label');
+                attachmentLabel.className = 'attachment-label';
+                attachmentLabel.innerHTML = '<input type="file" accept="image/png" style="display:none;">📎 Attach PNG';
+                chatContainer.appendChild(attachmentLabel);
+                scrollChatToBottom(chatContainer);  
+    
+                attachmentLabel.querySelector('input').addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file && file.type === 'image/png') {
+                        console.log(file);
+                        addUserMessage(file.name);
+                        uploadImage(file, previousMessage);
+                    } else {
+                        addBotMessage("Please upload a valid PNG image.");
+                    }
+                });
+            }
+    
+            function uploadImage(file, previousMessage) {
+                const attachmentLabel = document.querySelector('.attachment-label');
+                attachmentLabel.remove();
+                const formData = new FormData();
+                formData.append('image', file);
+                formData.append('question', previousMessage);
+    
+                showLoadingIndicator();
+                fetch('/chatbot/image-analysis/', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    hideLoadingIndicator();
+                    const botResponse = data.response || "I'm sorry, I couldn't process your request.";
+                    addBotMessage(botResponse);
+                    displayActionButtons(previousMessage);
+                    addBotMessage("Hint: Press the delete button to start again.");
+                })
+                .catch(handleError);
+            }
+    
+            function requestExplanation(previousMessage) {
+                showLoadingIndicator();
+                fetch('/chatbot/igcse-response/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ question: previousMessage })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    hideLoadingIndicator();
+                    const botResponse = data.response || "I'm sorry, I couldn't process your request.";
+                    addBotMessage(botResponse);
+                    console.log(botResponse);
+                    setMessage(botResponse);
+                    displayActionButtons(previousMessage);
+                    addBotMessage("Hint: Press the delete button to start again.");
+                    
+                })
+                .catch(handleError);
+            }
+            function requestRecommendation(latestBotResponse) {
+    showLoadingIndicator();
+    fetch('/chatbot/recommend-videos/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({ question: latestBotResponse })
+    })
+    .then(response => response.json())
+    .then(data => {
+        hideLoadingIndicator();
+        if (data.links && data.links.length > 0) {
+            // Concatenate all the links into a single string with a one-line gap between each link
+            const linksMessage = data.links.join('\n\n');
+            addBotMessage("Here are some recommended videos:\n\n" + linksMessage);
+        } else {
+            // If no links are found, display the fallback bot response
+            const botResponse = data.response || "I'm sorry, I couldn't find any relevant videos.";
+            addBotMessage(botResponse);
+            speakMessage(botResponse);
+        }
+        displayActionButtons(latestBotResponse);
+        addBotMessage("Hint: Press the delete button to start again.");
+    })
+    .catch(handleError);
+}
+
+
+
+            function disableInputElements() {
+                document.getElementById('voice').disabled = true;
+                document.getElementById('send-button').disabled = true;
+                document.getElementById('user-input').disabled = true;
+            }
+    
+            function reEnableInputElements() {
+                document.getElementById('voice').disabled = false;
+                document.getElementById('send-button').disabled = false;
+                document.getElementById('user-input').disabled = false;
+            }
+    
+            function createButtonContainer() {
+                const buttonContainer = document.createElement('div');
+                buttonContainer.className = 'button-container';
+                return buttonContainer;
+            }
+    
+            function createButton(text, onClickHandler) {
+                const button = document.createElement('button');
+                button.className = 'chat-button1';
+                button.innerText = text;
+                button.onclick = onClickHandler;
+                return button;
+            }
+    
+            function appendButtonsToContainer(container, buttons) {
+                buttons.forEach(button => container.appendChild(button));
+            }
+    
+            function appendButtonContainerToChat(container) {
+                const chatContainer = document.querySelector('.chat-container');
+                chatContainer.appendChild(container);
+                scrollChatToBottom(chatContainer);
+            }
+    
+            window.VoiceInput = function() {
+                const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.lang = 'en-US';
+                recognition.interimResults = false;
+                recognition.maxAlternatives = 1;
+    
+                recognition.start();
+    
+                recognition.onresult = function(event) {
+                    const voiceMessage = event.results[0][0].transcript;
+                    document.getElementById('user-input').value = voiceMessage;
+                    sendMessage();
+                };
+    
+                recognition.onerror = function(event) {
+                    alert('Voice input error: ' + event.error);
+                };
+            };
+    
+            function getCookie(name) {
+                const cookies = document.cookie ? document.cookie.split(';') : [];
+                for (const cookie of cookies) {
+                    const trimmedCookie = cookie.trim();
+                    if (trimmedCookie.startsWith(name + '=')) {
+                        return decodeURIComponent(trimmedCookie.substring(name.length + 1));
+                    }
+                }
+                return null;
+            }
+        });
+        function speakMessage(message) {
+    const messageText = message;
+    const synth = window.speechSynthesis;
+let voices = [];
+
+synth.onvoiceschanged = () => {
+ 
+ 
+ 
+    voices = synth.getVoices();
+  console.log(voices);
+};
+
+    if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(messageText);
+
+        // Set a more soothing voice, pitch, and rate
+        utterance.lang = 'en-UK';
+        utterance.pitch = 1.3; // Slightly higher pitch for a more pleasant sound
+        utterance.rate = 0.8;  // Slower rate for a calmer tone
+
+        // Ensure voices are loaded
+        const voices = window.speechSynthesis.getVoices();
+        if (voices.length === 0) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                const voices = window.speechSynthesis.getVoices();
+                setSoothingVoice(utterance, voices);
+                window.speechSynthesis.speak(utterance);
+            };
+        } else {
+            setSoothingVoice(utterance, voices);
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Add an event listener to reset the TTS button when the speech ends
+        utterance.onend = function() {
+            const ttsButtons = document.querySelectorAll('.tts-button');
+            ttsButtons.forEach(button => button.innerText = '<i class="fas fa-volume-up"></i>');
+        };
+    } else {
+        alert('Sorry, your browser does not support Text-to-Speech.');
+    }
+}
+
+function setSoothingVoice(utterance, voices) {
+    // Attempt to find a more soothing voice if available
+    const soothingVoice = voices.find(voice => voice.name.includes('Microsoft Zira'));
+    console.log(soothingVoice);
+    if (soothingVoice) {
+        utterance.voice = soothingVoice;
+    }
+}
+
+function stopSpeech() {
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+    }
+}
+
+
+
+
+    </script>
+    
+    
   </body>
 </html>

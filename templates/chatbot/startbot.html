@@ -3,7 +3,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    {% load static %}
     <link rel="icon" type="image/svg+xml" href="{% static 'chatbot/favicon.svg' %}">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat Bot</title>
@@ -19,70 +18,21 @@
     />
   </head>
   <body class="dark-mode">
-    <div class="main-section2">
-      <div class="container">
-        <div class="nav-bar2">
-          <div class="logo2">
-            <img src="{% static 'chatbot/img-edit-bot/logo.png' %}" alt="lg1" />
-            <img src="{% static 'chatbot/img-edit-bot/TechRealm.png' %}" alt="logo-text" />
-          </div>
-          <div class="left-profile2">
-            <button id="togle">Docs guide</button>
-            <button id="toggle-button">
-              <i class="fa-regular fa-moon"></i>
-            </button>
-            <img src="{% static 'chatbot/img-edit-bot/profile.png' %}" alt="profile" />
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="Main-chat-box2" style="margin-top: 50px;">
+      <div class="main-section2">
+        <div class="container">
+    {% include 'chatbot/navbar.html' %}
+
+
+      </div>
+     
+
+    <div class="Main-chat-box2" style="margin-top: 106px;">
       <div class="container">
         <div class="chat-prefix2">
           <div class="row">
             <div class="col-md-2">
-              <div class="sidebar-custom">
-                <li class="item-hover">Overview</li>
-                <div class="icon-group">
-                    <i class="fa-solid fa-message"></i>
-                    <a id="chat-link" href="#">Chat</a>
-                </div>
-                <li class="item-hover">Manage</li>
-                <div class="icon-group">
-                    <p>>_</p>
-                    <a id="api-link" href="#">API</a>
-                </div>
-                <div class="icon-group">
-                    <i class="fa-solid fa-file"></i>
-                    <a id="file-link" href="#">File</a>
-                </div>
-                <div class="icon-group">
-                    <i class="fa-solid fa-gear"></i>
-                    <a id="setting-link" href="#">Setting</a>
-                </div>
-                <li class="item-hover">Connect</li>
-                <div class="icon-group">
-                    <i class="fa-brands fa-telegram"></i>
-                    <a href="#about">Telegram</a>
-                </div>
-                <div class="icon-group">
-                    <i class="fa-brands fa-slack"></i>
-                    <a href="#about">Slack</a>
-                </div>
-                <div class="icon-group">
-                    <i class="fa-solid fa-caret-up"></i>
-                    <a href="#about">Vercel</a>
-                </div>
-                <div class="icon-group">
-                    <i class="fa-solid fa-laptop"></i>
-                    <a href="#about">Embed</a>
-                </div>
-            </div>
-            
-           
-             
-            
+              {% include 'chatbot/sidebar.html' %}
             </div>
             <div class="col-md-10">
               <div class="file-content">
@@ -97,15 +47,20 @@
       </div>
     </div>
 
-    <div class="techrealm2">
-      <div class="container">
-        <div class="tech-rel2">
-          <img src="{% static 'chatbot/img-edit-bot/realm.png' %}" alt="realm" />
-          <br />
-          <img src="{% static 'chatbot/img-edit-bot/TechRealm.png' %}" alt="realm-logo" />
+
+    <div class="logo" style="display: flex; justify-content: center; align-items: center; width: 100%; margin-top: 20px;">
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <div class="bg-logo">
+          <img src="{% static 'chatbot/img-create-bot/logo.svg' %}" alt="logo">
+        </div>
+        <div class="logo-text">
+          <h2>TechRealm</h2>
         </div>
       </div>
     </div>
+    
+    
+   
 
     <footer>
       <div class="container">
@@ -126,9 +81,11 @@
             <div class="ft-content2">
               <h5>Social Media</h5>
               <div class="social-logo">
-                <img src="{% static 'chatbot/img-edit-bot/twitter.png' %}" alt="twitter" />
-                <img src="{% static 'chatbot/img-edit-bot/insta.png' %}" alt="insta" />
-                <img src="{% static 'chatbot/img-edit-bot/telegram.png' %}" alt="telegram" />
+                  <div class="social-logo">
+                    <img src="{% static 'chatbot/img/logo1.svg' %}" alt="logo1">
+                    <img src="{% static 'chatbot/img/logo2.svg' %}" alt="logo2">
+                    <img src="{% static 'chatbot/img/logo3.svg' %}" alt="logo3">
+                </div>
               </div>
             </div>
           </div>
@@ -151,6 +108,23 @@
       document.getElementById('file-link').href = `/chatbot/edit_bot/${key}`;
       document.getElementById('setting-link').href = `/chatbot/hub/${key}`;
 
+      document.getElementById('tech_realm').addEventListener('click', () => {
+        window.location.href = '/chatbot/create_bot/';
+      });
+      document.getElementById('tech_realm').addEventListener('click', () => {
+    window.location.href = '/chatbot/create_bot/';
+  });
+  if (window.innerWidth <= 768) {
+      const logo = document.querySelector('.logo-text');
+      logo.style.cursor = 'pointer';
+      
+      logo.addEventListener('click', () => {
+        window.location.href = '/chatbot/'; // Replace with your URL
+      });
+    }
+
     </script>
+
+<script src = "{% static 'chatbot/script/logout.js' %}"></script>
   </body>
 </html>

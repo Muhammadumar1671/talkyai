@@ -1,0 +1,51 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'chatbot/css/sidebar.css' %}?v=1.0" />
+<div class="sidebar-custom">
+    <li class="item-hover">Overview</li>
+    <div class="icon-group">
+        <i class="fa-solid fa-message"></i>
+        <a id="chat-link" href="#">Chat</a>
+    </div>
+    <li class="item-hover">Manage</li>
+    <div class="icon-group">
+        <p>>_</p>
+        <a id="api-link" href="#">API</a>
+    </div>
+    <div class="icon-group">
+        <i class="fa-solid fa-file"></i>
+        <a id="file-link" href="#">File</a>
+    </div>
+    <div class="icon-group">
+        <i class="fa-solid fa-gear"></i>
+        <a id="setting-link" href="#">Setting</a>
+    </div>
+    <li class="item-hover">Connect</li>
+    <div class="icon-group">
+        <i class="fa-brands fa-telegram"></i>
+        <a href="#about">Telegram</a>
+    </div>
+    <div class="icon-group">
+        <i class="fa-brands fa-slack"></i>
+        <a href="#about">Slack</a>
+    </div>
+    <div class="icon-group">
+        <i class="fa-solid fa-caret-up"></i>
+        <a href="#about">Vercel</a>
+    </div>
+    <div class="icon-group">
+        <i class="fa-solid fa-laptop"></i>
+        <a href="#about">Embed</a>
+    </div>
+</div>
+<button class="hamburger-icon" onclick="toggleSidebar()">
+    <i class="fa-solid fa-bars"></i>
+</button>
+
+<script>
+  document.querySelector('.hamburger-icon').addEventListener('click', function() {
+    document.querySelector('.sidebar-custom').classList.toggle('active');
+});
+
+
+</script>

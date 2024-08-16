@@ -16,7 +16,7 @@ def initialize_environment(api_key):
     os.environ['OPENAI_API_KEY'] = api_key
 
 def LLM():
-    return ChatOpenAI(temperature=0.5, max_tokens= 500, model="gpt-4o")
+    return ChatOpenAI(temperature=0.5, max_tokens= 800, model="gpt-4o")
 
 def load_and_split_documents(directory_path):
     try:
@@ -124,13 +124,13 @@ def get_bot_responses(api_key, question, prompt, retriever_directory, instructio
 def igcse_retriever(vector_index, prompt):   
     custom_prompt_template = prompt + f"""
     Context: {{context}}
-    Only use the information provided in the context.
+    Only use the information provided in the context and provide simple and short answers.
     """
 
     custom_prompt = PromptTemplate(input_variables=["context"], template=custom_prompt_template)
     return vector_index.as_retriever(), custom_prompt
 
-def get_igcse_response(api_key, prompt, retriever_directory , links):
+def get_igcse_response(api_key, prompt, retriever_directory):
     initialize_environment(api_key)
     vector_index = load_vector_index(retriever_directory)
     if isinstance(vector_index, str) and 'Error' in vector_index: 
@@ -139,13 +139,11 @@ def get_igcse_response(api_key, prompt, retriever_directory , links):
     chain = create_chain(custom_prompt, retriever_instance)
     response = chain({"query": prompt, "return_only_outputs": False})
     message = response.get('result')
-    return   cleanmessage(message , links)
+    return   cleanmessage(message)
 
 import re
-def cleanmessage(response , links):
+def cleanmessage(response):
     cleaned_message = re.sub(r'[`*#]', '',response)
-    cleaned_message += "\n\n Please Watch these youtube vidoes for reference.\n"
-    cleaned_message += "".join([f"\n{link}" for link in links])
-    cleaned_message += "\n\nIf you have any other query, please mention the subject, topic, and your query."
+    cleaned_message += "\n\nIf You need more explanation please press the first button below."
 
     return cleaned_message

@@ -3,14 +3,15 @@ import os
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.shortcuts import get_object_or_404, render
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated , AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from .tasks import create_Prompt, save_message, check_product_related_task 
 from django.views.decorators.clickjacking import xframe_options_exempt
 from .Chatbot import start_bot , get_bot_responses, get_igcse_response
 from .models import Key, Prompt_Template, ChatMessage
-from .ProductsRelated import igcse_prompt_generate , check_educationRelated, youtubelinks
+from .ProductsRelated import igcse_prompt_generate , check_educationRelated, youtubelinks , extract_words
+from .image_analysis import get_image_analysis
 
 
 PDFS_BASE_DIR = 'talkyai/pdfs'
@@ -29,7 +30,7 @@ def landing_page(request):
 @ensure_csrf_cookie
 def dashboard(request):
     list_key = Key.objects.filter(user = request.user)
-    list_key.delete()
+   # list_key.delete()
     return render(request, 'chatbot/dashboard.html')
 
 @api_view(['GET'])
@@ -101,8 +102,8 @@ def Create_Agent(request):
     try:
         data = request.data
         name = data.get('name')
-        # if name.lower() == 'igcse':
-        #     return Response({'error': 'Model name is reserved'}, status=status.HTTP_400_BAD_REQUEST)
+        if name.lower() == 'igcse':
+            return Response({'error': 'Model name is reserved'}, status=status.HTTP_400_BAD_REQUEST)
         botPurpose = data.get('purpose')
         botData = data.get('data')
         key_instance = Key(user=request.user, model_name = name)
@@ -125,8 +126,8 @@ def Create_Agent(request):
 def list_keys(request):
     try:
         # Fetch the keys related to the authenticated user
-        keys = Key.objects.filter(user=request.user)
-        #keys = Key.objects.filter(user=request.user).exclude(model_name='igcse')
+        #keys = Key.objects.filter(user=request.user)
+        keys = Key.objects.filter(user=request.user).exclude(model_name='igcse')
 
         
         # Combine hash_key and model_name into a single list of dictionaries
@@ -311,11 +312,11 @@ def delete_chat(request, bot_id):
     ChatMessage.objects.filter(bot_id=bot_id).delete()
     return Response({'message': 'Chat messages deleted successfully'}, status=status.HTTP_200_OK)
 
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def igcse_response(request):
-     try:
+def isEudcationalRelated(request):
+    try:
+        print("REQUEST HERE")
         data = request.data
         question = data.get('question')
         key_id = Key.objects.filter(model_name='igcse').first().hash_key
@@ -324,12 +325,23 @@ def igcse_response(request):
         
         isEducationRelated = check_educationRelated(question)
         print(isEducationRelated)
-        if isEducationRelated == False:
-            return response({response: 'Please specify your Subject, topic, and your query for help'}, status=status.HTTP_200_OK)
+        return Response({'response': isEducationRelated}, status=status.HTTP_200_OK)
+    
+    except json.JSONDecodeError:
+        return Response({'error': 'Invalid JSON'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def igcse_response(request):
+     try:
+        data = request.data
+        question = data.get('question')
+        key_id = Key.objects.filter(model_name='igcse').first().hash_key
+        if not question or not key_id:
+            return Response({'error': 'Question and key are required'}, status=status.HTTP_400_BAD_REQUEST)
         prompt_template = igcse_prompt_generate(question)
-        youtubekey = os.environ.get('YOUTUBE_API_KEY')
-        print(youtubekey)
-        links = youtubelinks(youtubekey , question)
+    
         
 
         retriever_directory = os.path.join(RETRIEVER_BASE_DIR, request.user.username, key_id)
@@ -337,12 +349,7 @@ def igcse_response(request):
 
         if not api_key:
             return Response({'error': 'API key not configured'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
-        print (api_key)
-        print (prompt_template)
-        print (retriever_directory)
-
-        response = get_igcse_response(api_key, prompt_template, retriever_directory , links)
+        response = get_igcse_response(api_key, prompt_template, retriever_directory)
      
         # save_message.delay(request.user.id, key_id, question, 'user')
         # save_message.delay(request.user.id, key_id, response, 'bot')
@@ -391,4 +398,34 @@ def delete_key(request, key_id):
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def image_analysis(request):
+    data = request.data.get('image')
+    print(data)
+    analysis  = get_image_analysis(data)
+    return Response({'response': analysis}, status=status.HTTP_200_OK)
 
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny]) 
+def recommend_links(request):
+    try:
+        key = os.environ.get('YOUTUBE_API_KEY')
+        bot_response = request.data.get('question')
+        words = extract_words(bot_response)
+        links = youtubelinks(key, words)
+        print("Words:", words)
+        return Response({'links': links}, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    
+def sidebar(request):
+    return render(request, 'chatbot/sidebar.html')
+
+def navbar(request):
+    return render(request, 'chatbot/navbar.html')

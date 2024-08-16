@@ -27,7 +27,11 @@ urlpatterns = [
     path('igcse/', views.igcse, name='igcse'),
     path ('igcse-response/', views.igcse_response, name='igcse_response'),
     path('delete-key/<str:key_id>/', views.delete_key, name='delete_key'),
-    
+    path('is-educational/', views.isEudcationalRelated, name='is_educational'),
+    path('image-analysis/', views.image_analysis, name='image_analysis'),
+    path('recommend-videos/', views.recommend_links, name='recommend_links'),
+    path('sidebar/', views.sidebar, name='sidebar'),
+    path('navbar/', views.navbar, name='navbar'),
 ]
 
 if settings.DEBUG:
