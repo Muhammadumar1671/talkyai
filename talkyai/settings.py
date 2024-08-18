@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
 ]
 
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
@@ -151,8 +152,8 @@ DEFAULT_FROM_EMAIL = 'info@learnity.store'
 
 X_FRAME_OPTIONS = 'ALLOWALL'
 
-CELERY_BROKER_URL = 'redis://redis:6379/0'
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_BROKER_URL = 'redis://default:kDIhBYNgJsGXyMAYClmviefSgPfpgXCh@autorack.proxy.rlwy.net:23511'
+CELERY_RESULT_BACKEND = 'redis://default:kDIhBYNgJsGXyMAYClmviefSgPfpgXCh@autorack.proxy.rlwy.net:23511'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
