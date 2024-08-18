@@ -115,13 +115,15 @@
         }
 
         .loading-text {
+            /*make it appear in the left buttom corner*/
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 16px;
-            color: #007bff;
+            bottom: 0;
+            left: 0;
             display: none;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #212529;
+
         }
 
         .disabled {
@@ -245,8 +247,7 @@
         }
 
         function toggleLoading(show) {
-            const loadingText = document.getElementById('loading-text');
-            loadingText.style.display = show ? 'block' : 'none';
+
         }
 
         function enableInput() {

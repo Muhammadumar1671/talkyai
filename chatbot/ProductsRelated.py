@@ -3,7 +3,7 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
 from langchain.prompts.chat import ChatPromptTemplate
 from django.http import JsonResponse
-#from .models import Analytics_Of_Bot
+from .models import Analytics_Of_Bot
 import requests
 from dotenv import load_dotenv
 load_dotenv()
@@ -180,14 +180,14 @@ def extract_words(text):
 #     except Exception as e:
 #         return {'error': str(e)}
     
-# def GetAnalyticsList():
-#     try:
-#         all_analytics = Analytics_Of_Bot.objects.all()
-#         analytics_list = list(all_analytics.values('username', 'question', 'response', 'ip_address'))
-
-#         return analytics_list
-#     except Exception as e:
-#         return {'error': str(e)}
+def GetAnalyticsList(name):
+    try:
+        all_analytics = Analytics_Of_Bot.objects.all().filter(username=name)
+        analytics_list = list(all_analytics.values('username', 'question', 'response', 'ip_address'))
+   
+        return analytics_list
+    except Exception as e:
+        return {'error': str(e)}
 
 
 

@@ -9,9 +9,11 @@ from rest_framework import status
 from .tasks import create_Prompt, save_message, check_product_related_task 
 from django.views.decorators.clickjacking import xframe_options_exempt
 from .Chatbot import start_bot , get_bot_responses, get_igcse_response
-from .models import Key, Prompt_Template, ChatMessage
-from .ProductsRelated import igcse_prompt_generate , check_educationRelated, youtubelinks , extract_words
+from .models import Key, Prompt_Template, ChatMessage, Analytics_Of_Bot, Chart
+from .ProductsRelated import igcse_prompt_generate , check_educationRelated, youtubelinks , extract_words , GetAnalyticsList
 from .image_analysis import get_image_analysis
+from .charts import generate_charts
+
 
 
 PDFS_BASE_DIR = 'talkyai/pdfs'
@@ -284,7 +286,8 @@ def get_bot_response(request):
 
         response = get_bot_responses(api_key, question, prompt_template, retriever_directory, instructions)
         ip_address = request.META.get('REMOTE_ADDR')
-        username = request.user.username
+        username = get_object_or_404(Key, hash_key=key_id).user.username
+        print(username)
         check_product_related_task.delay(username, question, response, ip_address)
 
         save_message.delay(request.user.id, key_id, question, 'user')
@@ -423,9 +426,89 @@ def recommend_links(request):
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
-    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])     
 def sidebar(request):
     return render(request, 'chatbot/sidebar.html')
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])   
 def navbar(request):
     return render(request, 'chatbot/navbar.html')
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])   
+def getAnalytics(request):
+   user = request.user.username
+   analytics = Analytics_Of_Bot.objects.filter(username=user)
+   user_count = analytics.values('ip_address').distinct().count()
+   total_question_distinct = analytics.values('question').distinct().count()
+   total_response = analytics.values('response').count()
+   
+   return Response({'user_count': user_count, 'total_question': total_question_distinct, 'total_response': total_response} , status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def update_charts(request):
+    chart_instance = Chart.objects.filter(user=request.user)
+    chart_instance.delete()
+    
+    charts = generate_charts(request.user)
+    if not charts:
+        return Response({'error': 'Failed to generate charts'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return Response({'message': 'Charts updated successfully'}, status=status.HTTP_200_OK)
+
+
+
+from django.core.paginator import Paginator
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def display_charts(request):
+    user = request.user
+    charts_list = Chart.objects.filter(user=user).only('chart_type', 'image', 'created_at')
+    paginator = Paginator(charts_list, 8)  # Show 1 chart per page
+    page_number = request.GET.get('page')
+    charts = paginator.get_page(page_number)
+    context = {
+        'charts': charts,
+    }
+    return render(request, 'chatbot/display_charts.html', context)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def chart_data(request):
+    test_paths()
+    user = request.user
+    page_number = request.GET.get('page', 1)
+    charts_list = Chart.objects.filter(user=user).only('chart_type', 'image', 'created_at')
+    paginator = Paginator(charts_list, 8)  # Show 1 chart per page
+    charts = paginator.get_page(page_number)
+    charts_data = [
+        {'chart_type': chart.chart_type, 'image_url': chart.image.url} for chart in charts
+    ]
+    response = {
+        'charts': charts_data,
+        'has_previous': charts.has_previous(),
+        'previous_page_number': charts.previous_page_number() if charts.has_previous() else None,
+        'has_next': charts.has_next(),
+        'next_page_number': charts.next_page_number() if charts.has_next() else None,
+        'page_number': charts.number,
+        'num_pages': paginator.num_pages
+    }
+    return Response(response)
+
+
+
+import os
+from django.conf import settings
+
+def test_paths():
+    chart_name = "Questions_asked_by_User.png"
+    full_path = os.path.join(settings.MEDIA_ROOT, 'charts', chart_name)
+    print(f"Full path to the file: {full_path}")
+    print(f"Expected URL: {settings.MEDIA_URL}charts/{chart_name}")
+

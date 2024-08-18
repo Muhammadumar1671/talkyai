@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
-from dotenv import load_dotenv
-load_dotenv()
+#rom decouple import config
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -132,7 +132,11 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'charts'),
 ]
+
+
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.sendgrid.net'
@@ -148,16 +152,35 @@ DEFAULT_FROM_EMAIL = 'info@learnity.store'
 
 # talkyai/talkyai/settings.py
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+# CELERY_ACCEPT_CONTENT = ['json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_TIMEZONE = 'UTC'
+
+
+# #production settings
+import os
+CSRF_COOKIE_SECURE = False 
+CSRF_COOKIE_HTTPONLY = False
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
 
+
 # Other Celery settings as needed
 
 
-# Other Celery settings as needed
+ALLOWED_HOSTS = ['*']
 X_FRAME_OPTIONS = 'ALLOWALL'
+# Other Celery settings as needed
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

@@ -2,13 +2,6 @@ from openai import OpenAI
 import base64
 import os
 
-
-
-
-
-import base64
-from io import BytesIO
-
 def encode_image(image_object):
     image_bytes = image_object.read()
     return base64.b64encode(image_bytes).decode("utf-8")

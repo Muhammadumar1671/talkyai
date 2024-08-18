@@ -1,15 +1,200 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="icon" type="image/svg+xml" href="{% static 'chatbot/favicon.svg' %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+    <link rel="stylesheet" href="{% static 'chatbot/css/landingpage.css' %}?v=1.0">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Talky AI</title>
 
-    We are working on it
-    
-    
+    <style>
+
+.unique-iframe-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* Maintain 16:9 aspect ratio */
+    margin-top: 20px;
+}
+
+.unique-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.analytic_containers {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    margin-top: 100px;
+}
+
+.container-analytics {
+    flex: 1;
+    height: 150px; /* Adjust height as needed */
+    background-color: #1c1c1c; /* Dark grey background for 3D effect */
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5); /* 3D-like box shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.container-analytics::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #232323, #141414); /* Gradient for depth effect */
+    z-index: -1;
+}
+
+.container-analytics:hover {
+    transform: translateY(-10px); /* Lift effect on hover */
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.7); /* Stronger shadow on hover */
+}
+
+/* Icon Styling */
+.container-analytics i {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+/* Optional: Add a border for more definition */
+.container-analytics {
+    border: 1px solid #333;
+}
+
+    </style>
+   
+</head>
+<body class="dark-mode">
+    <div class="main-section">
+        <div class="main-img">
+            <div class="container">
+                <div class="nav-bar">
+                    <div class="logo">
+                        <div class="white-box">
+                            <img src="{% static 'chatbot/img/realm.svg' %}" class="inside-box" alt="realm">
+                        </div>
+                        <h1 class="tech-realm">TechRealm</h1>
+                    </div>
+                    <div class="left-profile">
+                        <button class="dashboard-button" onclick="DashboardPage()">Home Page</button>
+                        <button id="toggle-theme" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
+                        <img src="{% static 'chatbot/img/logout.svg' %}" onclick="logout()" alt="logout">
+                        
+                    </div>
+                </div>
+                <div class="analytic_containers">
+                    <div class="container-analytics">
+                        <i class="fas fa-users"></i>
+                        <span>Users</span>
+                        <div id="userCount">0</div>
+                    </div>
+                    <div class="container-analytics">
+                        <i class="fas fa-question-circle"></i>
+                        <span>Questions Asked</span>
+                        <div id="totalQuestions">0</div>
+                    </div>
+                    <div class="container-analytics">
+                        <i class="fas fa-comments"></i>
+                        <span>Responses</span>
+                        <div id="totalResponses">0</div>
+                    </div>
+                </div>
+                
+
+                <div class="row">
+                </div>
+                <div class="unique-iframe-container">
+                  <iframe
+                    src="/chatbot/display-charts"
+                    class="unique-iframe"
+                    id="unique-iframe"
+                  ></iframe>
+                </div>
+              
+              
+              
+        </div>
+    </div>
+    <div class="techrealm">
+        <div class="container">
+            <div class="tech-rel">
+                <div class="white-box">
+                    <img src="{% static 'chatbot/img/realm.svg' %}" class="inside-box" alt="realm">
+                </div>
+                <h1 class="tech-realm">TechRealm</h1>
+
+                <br>
+
+                <div class="social-logo">
+                    <img src="{% static 'chatbot/img/logo1.svg' %}" alt="logo1">
+                    <img src="{% static 'chatbot/img/logo2.svg' %}" alt="logo2">
+                    <img src="{% static 'chatbot/img/logo3.svg' %}" alt="logo3">
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 col-6">
+                    <div class="ft-content">
+                        <h5>Product</h5>
+                        <p>Templates <br>Integration <br>Workspace</p>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6">
+                    <div class="ft-content">
+                        <h5>Company</h5>
+                        <p>Jobs <br>Newsletter <br>Brand Assets</p>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6">
+                    <div class="ft-content">
+                        <h5>Features</h5>
+                        <p>Agent SDK <br>Infrastructure <br>Storage</p>
+                    </div>
+                </div> 
+                <div class="col-md-2 col-6">
+                    <div class="ft-content">
+                        <h5>Legal</h5>
+                        <p>Privacy Policy <br>Terms of Service <br>Copyright</p>
+                    </div>
+                </div>
+                <div class="col-md-2 col-6">
+                    <div class="ft-content">
+                        <h5>Learn</h5>
+                        <p>Documentation <br>Pricing</p>
+                    </div>
+                </div>
+            </div>
+            <hr style="width:100%;text-align:left;margin-left:0 ;color:white;">
+        </div>
+        <div class="footer-end">
+            <p>© 2024 TechRealm, Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
 </body>
+<script src = "{% static 'chatbot/script/dashboard.js' %}"></script>
+<script src = "{% static 'chatbot/script/logout.js' %}"></script>
 </html>
+

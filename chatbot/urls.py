@@ -24,15 +24,21 @@ urlpatterns = [
     path('get-bot-response/', views.get_bot_response, name='get_bot_response'),
     path('load-previous-messages/<str:bot_id>/', views.load_previous_messages, name='load_previous_messages'),
     path('delete-chat/<str:bot_id>/', views.delete_chat, name='delete_chat'),   
-    path('igcse/', views.igcse, name='igcse'),
-    path ('igcse-response/', views.igcse_response, name='igcse_response'),
+    #path('igcse/', views.igcse, name='igcse'),
+    #path ('igcse-response/', views.igcse_response, name='igcse_response'),
     path('delete-key/<str:key_id>/', views.delete_key, name='delete_key'),
-    path('is-educational/', views.isEudcationalRelated, name='is_educational'),
-    path('image-analysis/', views.image_analysis, name='image_analysis'),
-    path('recommend-videos/', views.recommend_links, name='recommend_links'),
+    #path('is-educational/', views.isEudcationalRelated, name='is_educational'),
+    #path('image-analysis/', views.image_analysis, name='image_analysis'),
+    #path('recommend-videos/', views.recommend_links, name='recommend_links'),
     path('sidebar/', views.sidebar, name='sidebar'),
     path('navbar/', views.navbar, name='navbar'),
+    path('analytics/', views.getAnalytics, name='analytics'),
+    path('update-charts/', views.update_charts, name='update_charts'),
+    path('display-charts/', views.display_charts, name='display_charts'),
+    path('chart-data/', views.chart_data, name='chart_data'),
+    
 ]
 
+
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

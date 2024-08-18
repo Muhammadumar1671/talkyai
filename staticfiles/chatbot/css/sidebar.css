@@ -1,0 +1,104 @@
+.sidebar-custom {
+    border-radius: 12px;
+    border: 1px solid gray;
+    background-color: #1e1e1e;
+    padding: 15px;
+}
+
+.sidebar-custom li {
+    list-style: none;
+    color: white;
+    padding: 10px 0;
+}
+
+.sidebar-custom a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 15px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    
+}
+.sidebar-custom a:hover {
+    background-color: rgb(42, 42, 42) ;
+    cursor: default;
+}
+
+.sidebar-custom {
+    background-color: #4f4f4f;
+    cursor: pointer;
+}
+
+.sidebar-custom .item-hover:hover {
+    background-color: transparent;
+    cursor: default;
+}
+
+.icon-group {
+    display: flex;
+    gap: 10px;
+    color: white;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.hamburger-icon {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px; /* Positioned on the right side */
+    z-index: 1100;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Tablet View */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+
+    .sidebar-custom li {
+        display: none;
+    }
+
+    .sidebar-custom a {
+        padding: 10px;
+        justify-content: center;
+    }
+
+    .sidebar-custom a span {
+        display: none;
+    }
+}
+/* Mobile View */
+@media (max-width: 767px) {
+    .sidebar-custom {
+        transform: translateX(-100%);
+        width: 250px; /* Set the width for the sidebar */
+        padding: 15px;
+        position: fixed; /* Overlay the content */
+        top: 0;
+        left: 0;
+        height: 100%; /* Full height to cover the screen */
+        z-index: 1000; /* Ensure it's above other content */
+        transition: transform 0.3s ease;
+        background-color: #4f4f4f; /* Ensure the background color is consistent */
+    }
+
+    .hamburger-icon {
+        display: block;
+    }
+
+    .sidebar-custom.active {
+        transform: translateX(0);
+    }
+
+    .file-content {
+        transition: margin-left 0.3s ease;
+    }
+}

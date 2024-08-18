@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charts</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: transparent;
+            padding-top: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: aliceblue;
+            margin-bottom: 30px;
+        }
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .chart-card {
+            background-color: transparent;
+            border: 1px solid grey;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 45%; /* Set width to 45% for two per row */
+            max-width: 800px;
+            text-align: center;
+            margin: 15px;
+        }
+        .chart-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: aliceblue;
+        }
+        .chart-card img {
+            width: 80%;
+            height: auto;
+            border-radius: 4px;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Analytical Data Of TalkyAi</h1>
+        <div class="chart-container" id="chart-container">
+            <!-- Charts will be loaded here by JavaScript -->
+        </div>
+        <div class="pagination" id="pagination">
+            <!-- Pagination will be loaded here by JavaScript -->
+        </div>
+    </div>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function loadCharts(page) {
+                $.ajax({
+                    url: '/chatbot/chart-data/',
+                    data: {
+                        'page': page
+                    },
+                    success: function(data) {
+                        var chartContainer = $('#chart-container');
+                        chartContainer.empty();
+                        data.charts.forEach(function(chart) {
+                            var chartCard = `
+                                <div class="chart-card">
+                                    <h2>${chart.chart_type}</h2>
+                                    <img src="${chart.image_url}" alt="${chart.chart_type}">
+                                </div>
+                            `;
+                            chartContainer.append(chartCard);
+                        });
+
+                        var pagination = $('#pagination');
+                        pagination.empty();
+                        if (data.has_previous) {
+                            pagination.append('<li class="page-item"><a class="page-link" href="#" data-page="1">&laquo; first</a></li>');
+                            pagination.append('<li class="page-item"><a class="page-link" href="#" data-page="' + data.previous_page_number + '">previous</a></li>');
+                        }
+                        pagination.append('<li class="page-item disabled"><a class="page-link" href="#">Page ' + data.page_number + ' of ' + data.num_pages + '</a></li>');
+                        if (data.has_next) {
+                            pagination.append('<li class="page-item"><a class="page-link" href="#" data-page="' + data.next_page_number + '">next</a></li>');
+                            pagination.append('<li class="page-item"><a class="page-link" href="#" data-page="' + data.num_pages + '">last &raquo;</a></li>');
+                        }
+                    }
+                });
+            }
+
+            $(document).on('click', '.page-link', function(e) {
+                e.preventDefault();
+                var page = $(this).data('page');
+                loadCharts(page);
+            });
+
+            // Load initial charts
+            loadCharts(1);
+        });
+    </script>
+</body>
+</html>

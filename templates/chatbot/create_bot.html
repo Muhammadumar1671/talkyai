@@ -2,22 +2,19 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <link rel="icon" type="image/svg+xml" href="{% static 'chatbot/favicon.svg' %}">
-    <link rel="stylesheet" href="{% static 'chatbot/css/createbot.css' %}?v=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="{% static 'chatbot/favicon.svg' %}">
+    <link rel="stylesheet" href="{% static 'chatbot/css/createbot.css' %}?v=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <title>Create Your Own Bot</title>
 </head>
 <body class="body">
     <div class="main-section">
+        <!-- Navbar Section -->
         <div class="container">
             <div class="nav-bar">
                 <div class="logo1">
@@ -29,19 +26,19 @@
                     </div>
                 </div>
                 <div class="nav-items">
-                    <ul>         
+                    <ul>
                         <li></li>
                         <li></li>
                     </ul>
                     <div class="btn-doc">
                         <button>Doc guide</button>
                     </div>
-                    
                     <img class='logout' src="{% static 'chatbot/img/logout.svg' %}" onclick="logout()" alt="logout">
-
                 </div>
             </div>
         </div>
+
+        <!-- Main Header Section -->
         <div class="main-header-section">
             <div class="container">
                 <div class="row">
@@ -55,7 +52,6 @@
                                     <button class="hubButton" id="hubButton">Hub</button>
                                 </div>
                             </div>
-                            
                             <div class="form-container">
                                 <div class="unique-container">
                                     <div class="unique-form-content" id="form-content">
@@ -77,40 +73,38 @@
                                         </form>
                                     </div>
                                 </div>
-                                                            
                             </div>
-                            
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="head-right">
                             <div class="inner-image">
-                                <div class="image">
-                                </div>
-                                <div class="image1">
-                                </div>
+                                <div class="image"></div>
+                                <div class="image1"></div>
                                 <div class="image2">
                                     <img src="{% static 'chatbot/img-create-bot/img6.svg' %}" alt="img3">
                                 </div>
                             </div>
                         </div>
-
                     </div>
-                 
+                </div>
+            </div>
+        </div>
+
+        <!-- Starters Section -->
         <div class="staters-section">
             <div class="container">
                 <div class="stater-content">
                     <h2>Bots</h2>
                     <p>Our own packages that you can use to get started quickly.</p>
                 </div>
-
                 <div class="containers-starters">
                     <!-- Bot containers will be added here -->
-                    </div>
                 </div>
             </div>
-
         </div>
+
+        <!-- Footer Logo Section -->
         <div class="footer-logo-container">
             <div class="footer-logo" style="flex-direction: column; align-items: center; margin-top: 40px;">
                 <div class="footer-logo-image">
@@ -121,9 +115,8 @@
                 </div>
             </div>
         </div>
-        
-    
 
+        <!-- Social Logos Section -->
         <div class="techrealm">
             <div class="container">
                 <div class="social-logo">
@@ -134,6 +127,8 @@
             </div>
         </div>
     </div>
+
+    <!-- Footer Section -->
     <footer>
         <div class="container">
             <div class="row">
@@ -168,14 +163,15 @@
                     </div>
                 </div>
             </div>
-            <hr style="width:100%;text-align:left;margin-left:0 ;color:white;">
+            <hr style="width:100%;text-align:left;margin-left:0; color:white;">
         </div>
         <div class="footer-end">
             <p>© 2024 TechRealm, Inc. All rights reserved.</p>
         </div>
     </footer>
+
+    <!-- JavaScript Files -->
     <script src="{% static 'chatbot/script/createbot.js' %}?v=1.0"></script>
     <script src="{% static 'chatbot/script/logout.js' %}"></script>
-
- 
+</body>
 </html>
