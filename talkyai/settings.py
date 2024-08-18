@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'authorization',
     'chatbot',
     'rest_framework.authtoken',
-    'celery'
+    'celery',
     'whitenoise.runserver_nostatic',    
 
 ]
