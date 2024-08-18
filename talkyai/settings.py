@@ -1,5 +1,7 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -152,8 +154,8 @@ DEFAULT_FROM_EMAIL = 'info@learnity.store'
 
 X_FRAME_OPTIONS = 'ALLOWALL'
 
-CELERY_BROKER_URL = 'redis://default:kDIhBYNgJsGXyMAYClmviefSgPfpgXCh@autorack.proxy.rlwy.net:23511'
-CELERY_RESULT_BACKEND = 'redis://default:kDIhBYNgJsGXyMAYClmviefSgPfpgXCh@autorack.proxy.rlwy.net:23511'
+CELERY_BROKER_URL = os.environ.get('REDIS_URL')
+CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
