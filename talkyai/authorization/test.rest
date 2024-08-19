@@ -1,9 +1,0 @@
-# Sign Up Request
-POST http://127.0.0.1:8000/signup/
-Content-Type: application/json
-
-{
-    "username": "UMArr",
-    "email": "umar1671594007@gmail.com",
-    "password": "testpassword123"
-}
