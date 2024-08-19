@@ -1,0 +1,9 @@
+# Celery worker service
+[[services]]
+name = "talkyai-celery"
+start = "celery -A talkyai worker --loglevel=info"
+env = "python"
+
+# Define the custom port for the Celery service
+[network]
+talkyai-celery = { port = 8001 }
