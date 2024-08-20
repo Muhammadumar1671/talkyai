@@ -9,7 +9,7 @@ from rest_framework import status
 from .tasks import create_Prompt, save_message, check_product_related_task 
 from django.views.decorators.clickjacking import xframe_options_exempt
 from .Chatbot import start_bot , get_bot_responses, get_igcse_response
-from .models import Key, Prompt_Template, ChatMessage, Analytics_Of_Bot, Chart
+from .models import Key, Prompt_Template, ChatMessage, Analytics_Of_Bot, Chart, Email_Frequency
 from .ProductsRelated import igcse_prompt_generate , check_educationRelated, youtubelinks , extract_words , GetAnalyticsList
 from .image_analysis import get_image_analysis
 from .charts import generate_charts
@@ -481,7 +481,6 @@ def display_charts(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def chart_data(request):
-    test_paths()
     user = request.user
     page_number = request.GET.get('page', 1)
     charts_list = Chart.objects.filter(user=user).only('chart_type', 'image', 'created_at')
@@ -501,14 +500,14 @@ def chart_data(request):
     }
     return Response(response)
 
+import datetime
 
-
-import os
-from django.conf import settings
-
-def test_paths():
-    chart_name = "Questions_asked_by_User.png"
-    full_path = os.path.join(settings.MEDIA_ROOT, 'charts', chart_name)
-    print(f"Full path to the file: {full_path}")
-    print(f"Expected URL: {settings.MEDIA_URL}charts/{chart_name}")
-
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def email_frequency(request):
+    user = request.user
+    email_frequency = request.data.get('email_frequency')
+    date = datetime.datetime.now()
+    Email_Frequency.objects.update_or_create(user=user, defaults={'frequency': email_frequency} , date = date)
+    print(Email_Frequency.objects.all())
+    return Response({'message': 'Email frequency updated successfully'}, status=status.HTTP_200_OK)    

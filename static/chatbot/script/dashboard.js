@@ -41,7 +41,30 @@ document.addEventListener('DOMContentLoaded', async () => {
             element.innerText = currentValue;
         }, intervalTime);
     }
-    
+
+const updateButton = document.getElementById('update-analytics');
+console.log(updateButton);
+updateButton.addEventListener('click', () => {
+    updateButton.disabled = true;
+
+    fetch ('/chatbot/update-charts/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    }).then(response => {
+        if (response.ok) {
+            fetchData();
+        } else {
+            console.error('Error updating analytics:', response);
+        }
+    }).catch(error => {
+        console.error('Error updating analytics:', error);
+    });
+    window.location.reload();
+});
+  
  function getCookie(name) {
     const cookies = document.cookie ? document.cookie.split(';') : [];
     for (const cookie of cookies) {

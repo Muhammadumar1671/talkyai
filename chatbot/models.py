@@ -65,3 +65,10 @@ class Chart(models.Model):
         return f"{self.user.username} - {self.chart_type} - {self.created_at}"
     
     
+class Email_Frequency(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    frequency = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.user.username} - {self.frequency} - {self.created_at}"
