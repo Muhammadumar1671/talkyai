@@ -65,3 +65,54 @@
         font-size: 14px; /* Smaller text size for mobile */
     }
 }
+
+.email {
+    margin-top: 40;
+    padding: 20px;
+    left: 0;
+
+    background-color: transparent;
+    border-radius: 8px;
+    max-width: 400px;
+
+}
+
+.email-content h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.email-content p {
+    font-size: 16px;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.email-content2 {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.email-content3 {
+    display: flex;
+    align-items: center;
+}
+
+.email-content3 input[type="radio"] {
+    margin-right: 10px;
+}
+
+.email-content3 label {
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: #ddd;
+    margin: 20px 0;
+}

@@ -168,6 +168,13 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
+CELERY_BEAT_SCHEDULE = {
+    'Email to Owner': {
+        'task': 'chatbot.tasks.send_email',
+        'schedule': 86400 # 1 day,  
+    },
+}
+
 
 # talkyai/settings.py
 # talkyai/talkyai/settings.py

@@ -161,24 +161,7 @@ def extract_words(text):
     return keywords
 
 
-# def GetFullAnalytics():
-#     try:
-#         all_analytics = Analytics_Of_Bot.objects.all()
-#         user_count = Analytics_Of_Bot.objects.values('username').distinct().count()
-#         usernames = list(Analytics_Of_Bot.objects.values_list('username', flat=True).distinct())
-#         responses = list(Analytics_Of_Bot.objects.values_list('response', flat=True))
-#         analytics_list = list(all_analytics.values('username', 'question', 'response', 'ip_address'))
 
-#         response_data = {
-#             'user_count': user_count,
-#             'usernames': usernames,
-#             'responses': responses,
-#             'analytics': analytics_list
-#         }
-#         print (GetFullAnalytics)
-#         return response_data
-#     except Exception as e:
-#         return {'error': str(e)}
     
 def GetAnalyticsList(name):
     try:
@@ -189,5 +172,11 @@ def GetAnalyticsList(name):
     except Exception as e:
         return {'error': str(e)}
 
-
+def GetAnalyticsListForEmail(name):
+    try:
+        all_analytics = Analytics_Of_Bot.objects.all().filter(username=name)
+        analytics_list = list(all_analytics.values('username', 'question', 'response', 'ip_address'))
+        return {'analytics': analytics_list}
+    except Exception as e:
+        return {'error': str(e)}
 

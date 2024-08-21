@@ -36,6 +36,7 @@ urlpatterns = [
     path('update-charts/', views.update_charts, name='update_charts'),
     path('display-charts/', views.display_charts, name='display_charts'),
     path('chart-data/', views.chart_data, name='chart_data'),
+    path('email-frequency', views.email_frequency, name='email_frequency'),
     
 ]
 

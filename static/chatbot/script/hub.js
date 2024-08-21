@@ -133,3 +133,36 @@ if (window.innerWidth <= 768) {
       window.location.href = '/chatbot/'; // Replace with your URL
     });
   }
+
+  document.querySelectorAll('input[name="email"]').forEach(function(radio) {
+    radio.addEventListener('change', function() {
+        const frequency = {
+            'daily': 1,
+            'weekly': 7,
+            'monthly': 30
+        };
+
+        const selectedValue = frequency[this.value];
+
+
+        fetch('/chatbot/email-frequency', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+
+            },
+            body: JSON.stringify({
+                email_frequency: selectedValue
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            alert(data.message || data.error);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+});

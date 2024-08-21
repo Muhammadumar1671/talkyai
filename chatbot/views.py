@@ -10,9 +10,10 @@ from .tasks import create_Prompt, save_message, check_product_related_task
 from django.views.decorators.clickjacking import xframe_options_exempt
 from .Chatbot import start_bot , get_bot_responses, get_igcse_response
 from .models import Key, Prompt_Template, ChatMessage, Analytics_Of_Bot, Chart, Email_Frequency
-from .ProductsRelated import igcse_prompt_generate , check_educationRelated, youtubelinks , extract_words , GetAnalyticsList
+from .ProductsRelated import igcse_prompt_generate , check_educationRelated, youtubelinks , extract_words
 from .image_analysis import get_image_analysis
 from .charts import generate_charts
+
 
 
 
@@ -23,7 +24,7 @@ RETRIEVER_BASE_DIR = 'talkyai/retriever'
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 @ensure_csrf_cookie
-def landing_page(request):
+def landing_page(request):    
     return render(request, 'chatbot/landingpage.html')
 
 
@@ -502,12 +503,21 @@ def chart_data(request):
 
 import datetime
 
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def email_frequency(request):
     user = request.user
-    email_frequency = request.data.get('email_frequency')
-    date = datetime.datetime.now()
-    Email_Frequency.objects.update_or_create(user=user, defaults={'frequency': email_frequency} , date = date)
+    frequency = request.data.get('email_frequency', 0)  # Default to 0 if not provided
+ 
+    # Update or create the Email_Frequency object
+    email_freq_obj, created = Email_Frequency.objects.update_or_create(
+        user=user,
+        defaults={'frequency': frequency},# Update the frequency value,
+    )
+
+    # Print statements for debugging (optional)
+    print(f"Email Frequency: {email_freq_obj}")
     print(Email_Frequency.objects.all())
-    return Response({'message': 'Email frequency updated successfully'}, status=status.HTTP_200_OK)    
+
+    return Response({'message': 'Email frequency updated successfully'}, status=status.HTTP_200_OK)

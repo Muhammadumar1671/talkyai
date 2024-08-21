@@ -3,11 +3,18 @@ import multiprocessing
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from celery import shared_task
-from .ProductsRelated import create_chatbot, check_product_related
-from chatbot.models import  Prompt_Template , Analytics_Of_Bot , ChatMessage
+from .ProductsRelated import create_chatbot, check_product_related, GetAnalyticsListForEmail
+from chatbot.models import  Prompt_Template , Analytics_Of_Bot , ChatMessage, Key, Email_Frequency
 import logging
 from django.core.mail import send_mail
 import smtplib
+from authorization.models import User
+import datetime
+import html
+import datetime
+from django.utils import timezone
+
+
 
 
 
@@ -36,64 +43,67 @@ def check_product_related_task(username, question, response, ip_address):
 
 
 
+def format_email_content(analytics_data):
+    if 'error' in analytics_data:
+        return f"<h1>Error fetching analytics data: {analytics_data['error']}</h1>"
 
+    content = """
+    <h1>Analytics Data</h1>
+    <h2>Detailed Analytics:</h2>
+    <table border='1'>
+        <tr><th>Username</th><th>Question</th><th>Response</th><th>IP Address</th></tr>
+    """
 
+    for entry in analytics_data['analytics']:
+        content += f"""
+        <tr>
+            <td>{html.escape(entry['username'])}</td>
+            <td>{html.escape(entry['question'])}</td>
+            <td>{html.escape(entry['response'])}</td>
+            <td>{html.escape(entry['ip_address'])}</td>
+        </tr>
+        """
     
-    
+    content += "</table>"
 
-# def format_email_content(analytics_data):
-#     if 'error' in analytics_data:
-#         return f"<h1>Error fetching analytics data: {analytics_data['error']}</h1>"
+    return content
 
-#     content = f"""
-#     <h1>Analytics Data</h1>
-#     <p><strong>User Count:</strong> {analytics_data['user_count']}</p>
-#     <p><strong>Usernames:</strong> {', '.join(analytics_data['usernames'])}</p>
-#     <h2>Responses:</h2>
-#     <ul>
-#     """
-    
-#     for response in analytics_data['responses']:
-#         content += f"<li>{response}</li>"
-    
-#     content += "</ul><h2>Detailed Analytics:</h2><table border='1'><tr><th>Username</th><th>Question</th><th>Response</th><th>IP Address</th></tr>"
+@shared_task
+def send_email():
+    usernames = User.objects.values_list('username', flat=True)
 
-#     for entry in analytics_data['analytics']:
-#         content += f"<tr><td>{entry['username']}</td><td>{entry['question']}</td><td>{entry['response']}</td><td>{entry['ip_address']}</td></tr>"
-    
-#     content += "</table>"
+    for username in usernames:
+        user = User.objects.get(username=username)
+        email_address = user.email
+        try:
+            email_frequency = Email_Frequency.objects.get(user=user)
+            if email_frequency:
+                analytics_data = GetAnalyticsListForEmail(username)
+                frequency = email_frequency.frequency
+                created_at = email_frequency.created_at
 
-#     return content
-
-
-
-# @shared_task
-# def send_email():
-#     # Fetch analytics data
-#     analytics_data = GetFullAnalytics()
-#     # Format email 
-#     email_content = format_email_content(analytics_data)
-#     content = email_content
-#     SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
-#     api_key = SENDGRID_API_KEY
-#     from_email = 'info@learnity.store'
-#     to_emails = 'umar1671594@gmail.com'
-#     subject = 'Analytics Data'
-
-    
-#     message = Mail(
-#         from_email=from_email,
-#         to_emails=to_emails,
-#         subject=subject,
-#         html_content=content
-#     )
-#     try:
-#         sg = SendGridAPIClient(api_key)
-#         response = sg.send(message)
-#         return response.status_code, response.body, response.headers
-#     except Exception as e:
-#         return str(e)
-
+                if timezone.now() - created_at >= datetime.timedelta(days=frequency):
+                    email_content = format_email_content(analytics_data)
+                    content = email_content
+                    SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
+                    api_key = SENDGRID_API_KEY
+                    from_email = 'info@learnity.store'
+                    to_emails = email_address
+                    subject = 'Analytical Report of Your bot. Thank you for using talkyai'
+                    message = Mail(
+                        from_email=from_email,
+                        to_emails=to_emails,
+                        subject=subject,
+                        html_content=content
+                    )
+                    try:
+                        sg = SendGridAPIClient(api_key)
+                        response = sg.send(message)
+                        print(f"Email sent to {email_address} with status code {response.status_code}")
+                    except Exception as e:
+                        print(f"Failed to send email to {email_address}: {str(e)}")
+        except Email_Frequency.DoesNotExist:
+            print(f"No Email_Frequency found for user: {username}")
 
 
 from django.shortcuts import get_object_or_404
