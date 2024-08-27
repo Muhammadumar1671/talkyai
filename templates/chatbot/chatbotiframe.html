@@ -20,7 +20,7 @@
         .chat-container {
             flex: 1;
             display: flex;
-            background-color: rgba(255, 255, 255, 0.1);
+            background-color: transparent;
 
             flex-direction: column;
             align-items: center;
@@ -56,14 +56,14 @@
 
         .user-message {
             align-self: flex-end;
-            background-color: grey;
-            color: #212529;
+            background-color: #007bff;
+            color: white;
         }
 
         .bot-message {
             align-self: flex-start;
-            background-color: grey;
-            color: #212529;
+            background-color: rgb(145, 144, 144);
+            color: black;
             display: flex;
             align-items: center;
         }
@@ -209,46 +209,45 @@
         }
 
         async function sendMessage() {
-            const userInput = document.getElementById('user-input');
-            const message = userInput.value;
+    const userInput = document.getElementById('user-input');
+    const message = userInput.value;
 
-            if (!message.trim()) {
-                return;
-            }
+    if (!message.trim()) {
+        return;
+    }
 
-            displayMessage(message, true);
-            userInput.value = '';
-            toggleLoading(true);
+    displayMessage(message, true);
+    userInput.value = '';
+    toggleLoading(true);  // Show loading indicator
 
-            const response = await fetch('/chatbot/get-bot-response/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': csrftoken,  // Include CSRF token in headers
-                },
-                body: JSON.stringify({
-                    question: message,
-                    previousquestion: previousQuestion,
-                    previousresponse: previousResponse,
-                    key: botId
-                }),
-            });
+    const response = await fetch('/chatbot/get-bot-response/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,  // Include CSRF token in headers
+        },
+        body: JSON.stringify({
+            question: message,
+            previousquestion: previousQuestion,
+            previousresponse: previousResponse,
+            key: botId
+        }),
+    });
 
-            const data = await response.json();
-            toggleLoading(false);
+    const data = await response.json();
+    toggleLoading(false);  // Hide loading indicator
 
-            if (data.response) {
-                displayMessage(data.response, false);
+    if (data.response) {
+        displayMessage(data.response, false);
 
-                // Update previous question and response after receiving the bot's response
-                previousQuestion = message;
-                previousResponse = data.response;
-            }
-        }
+        // Update previous question and response after receiving the bot's response
+        previousQuestion = message;
+        previousResponse = data.response;
+    }
+}
 
-        function toggleLoading(show) {
 
-        }
+       
 
         function enableInput() {
             const inputContainer = document.getElementById('input-container');
@@ -274,8 +273,51 @@
                 displayMessage(msg.message, msg.sender === 'user');
             });
         }
+let loadingMessageId = null;
+
+function toggleLoading(show) {
+    const chatContent = document.getElementById('chat-content');
+    
+    if (show) {
+        // Create a loading message div
+        const loadingDiv = document.createElement('div');
+        loadingDiv.classList.add('message', 'bot-message');
+        loadingDiv.id = 'loading-message';
+
+        // Add the bot's picture
+        const botIcon = document.createElement('img');
+        botIcon.src = '/static/chatbot/img-chat-bot/botpic.svg';
+        loadingDiv.appendChild(botIcon);
+
+        // Add the "Loading..." text
+        const loadingText = document.createElement('span');
+        loadingText.textContent = 'Loading...';
+        loadingDiv.appendChild(loadingText);
+
+        // Append to chat content
+        chatContent.appendChild(loadingDiv);
+        chatContent.scrollTop = chatContent.scrollHeight;
+
+        loadingMessageId = loadingDiv.id;
+    } else {
+        // Remove the loading message
+        if (loadingMessageId) {
+            const loadingElement = document.getElementById(loadingMessageId);
+            if (loadingElement) {
+                chatContent.removeChild(loadingElement);
+            }
+            loadingMessageId = null;
+        }
+    }
+}
+
 
         async function deleteAllChats() {
+            const chatContent = document.getElementById('chat-content');
+                const botPicContainer = document.querySelector('.bot-pic-container');
+                chatContent.innerHTML = '';
+                chatContent.appendChild(botPicContainer);
+                displayMessage("Hello! How can I assist you today?", false);
             const response = await fetch(`/chatbot/delete-chat/${botId}/`, {
                 method: 'POST',  // Use POST instead of GET for delete requests
                 headers: {
@@ -285,13 +327,9 @@
             });
 
             if (response.ok) {
-                const chatContent = document.getElementById('chat-content');
-                const botPicContainer = document.querySelector('.bot-pic-container');
-                chatContent.innerHTML = '';
-                chatContent.appendChild(botPicContainer);
-                displayMessage("Hello! How can I assist you today?", false);
+             console.log('Chats deleted successfully.');
             } else {
-                displayMessage("Failed to delete chats. Please try again.", false);
+                console.log('Failed to delete chats in db.');
             }
         }
 

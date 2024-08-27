@@ -87,7 +87,7 @@ def igcse(request):
 
 @xframe_options_exempt
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def chatbotiframe(request, key):
     print(key)
     return render(request, 'chatbot/chatbotiframe.html' , {'key': key})
@@ -237,15 +237,18 @@ def chatbot(request , key):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def initiate_Bot(request, key):
     key_id = key
     print(key_id)
-    print(request.user.username)
+    name = request.user.username
+    if not name:
+        name = Key.objects.filter(hash_key=key_id).first().user.username
+    print(name)
     
     try:
-        retriever_directory = os.path.join(RETRIEVER_BASE_DIR, request.user.username, key_id)
-        pdf_directory = os.path.join(PDFS_BASE_DIR, request.user.username, key_id)
+        retriever_directory = os.path.join(RETRIEVER_BASE_DIR, name , key_id)
+        pdf_directory = os.path.join(PDFS_BASE_DIR, name , key_id)
         print (pdf_directory)
         api_key = os.environ.get('OPENAI_API_KEY')
     
@@ -263,12 +266,18 @@ def initiate_Bot(request, key):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@permission_classes([AllowAny])
 def get_bot_response(request):
     try:
         data = request.data
         question = data.get('question')
         key_id = data.get('key')
+        for_saving = request.user.username
+        user = request.user.username
+        if not user:
+            user = Key.objects.filter(hash_key=key_id).first().user.username
+            
+        
 
         if not question or not key_id:
             return Response({'error': 'Question and key are required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -279,21 +288,19 @@ def get_bot_response(request):
 
         prompt_template = prompt_template_obj.prompt
         instructions = prompt_template_obj.instructions
-        retriever_directory = os.path.join(RETRIEVER_BASE_DIR, request.user.username, key_id)
+        retriever_directory = os.path.join(RETRIEVER_BASE_DIR, user, key_id)
         api_key = os.environ.get('OPENAI_API_KEY')
 
         if not api_key:
             return Response({'error': 'API key not configured'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         response = get_bot_responses(api_key, question, prompt_template, retriever_directory, instructions)
-        ip_address = request.META.get('REMOTE_ADDR')
-        username = get_object_or_404(Key, hash_key=key_id).user.username
-        print(username)
-        check_product_related_task.delay(username, question, response, ip_address)
-
-        save_message.delay(request.user.id, key_id, question, 'user')
-        save_message.delay(request.user.id, key_id, response, 'bot')
-
+                
+        if for_saving:
+            ip_address = request.META.get('REMOTE_ADDR')
+            check_product_related_task.delay(user, question, response, ip_address)
+            save_message.delay(request.user.id, key_id, question, 'user')
+            save_message.delay(request.user.id, key_id, response, 'bot')
         return Response({'response': response}, status=status.HTTP_200_OK)
 
     except json.JSONDecodeError:
