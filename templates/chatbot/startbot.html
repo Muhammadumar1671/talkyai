@@ -102,11 +102,11 @@
       // Extract bot ID from URL and set iframe src
       const url = new URL(window.location.href);
       const pathnames = url.pathname.split('/');
-      const key = pathnames[pathnames.length - 1];
+      const key = pathnames[pathnames.length - 2];
       document.getElementById('chatbot-iframe').src = `/chatbot/startbot/${key}`;
-      document.getElementById('chat-link').href = `/chatbot/start-bot/${key}`;
-      document.getElementById('file-link').href = `/chatbot/edit_bot/${key}`;
-      document.getElementById('setting-link').href = `/chatbot/hub/${key}`;
+      document.getElementById('chat-link').href = `/chatbot/start-bot/${key}/`;
+      document.getElementById('file-link').href = `/chatbot/edit_bot/${key}/`;
+      document.getElementById('setting-link').href = `/chatbot/hub/${key}/`;
 
       document.getElementById('tech_realm').addEventListener('click', () => {
         window.location.href = '/chatbot/create_bot/';

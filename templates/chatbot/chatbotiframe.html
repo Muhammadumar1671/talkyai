@@ -237,13 +237,22 @@
     const data = await response.json();
     toggleLoading(false);  // Hide loading indicator
 
+
     if (data.response) {
-        displayMessage(data.response, false);
+        filter= convertToBold(data.response);
+
+        displayMessage(filter, false);
 
         // Update previous question and response after receiving the bot's response
         previousQuestion = message;
         previousResponse = data.response;
     }
+}
+function convertToBold(text) {
+    // Replace **word** with <strong>word</strong> in the text
+    return text.replace(/\*\*(.*?)\*\*/g, function(match, p1) {
+        return text.replace(/\*\*/g, '');
+    });
 }
 
 

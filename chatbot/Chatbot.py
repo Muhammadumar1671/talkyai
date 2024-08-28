@@ -16,11 +16,11 @@ def initialize_environment(api_key):
     os.environ['OPENAI_API_KEY'] = api_key
 
 def LLM():
-    return ChatOpenAI(temperature=0.5, max_tokens= 800, model="gpt-4o")
+    return ChatOpenAI(temperature=0.5, max_tokens= 250, model="gpt-4o")
 
 def load_and_split_documents(directory_path):
     try:
-        splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
         filenames = os.listdir(directory_path)
         docs = []
 
@@ -93,8 +93,7 @@ def retriever(vector_index, prompt, instructions):
     {prompt}
     Context: {{context}}
     Question: {{question}}.
-    Do not use any special characters such as * or # or any bold words. 
-    """ + instructions
+    """ + instructions + "Give short and simple answers."
 
     print("Custom prompt:", custom_prompt_template)
 

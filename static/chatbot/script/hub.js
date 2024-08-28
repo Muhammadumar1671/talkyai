@@ -99,15 +99,15 @@ async function fetchKeys() {
 // Function to update content and refresh the URL
 function updateContent(key) {
     // Always replace the URL state to avoid adding to the history stack
-    history.replaceState(null, '', `/chatbot/hub/${key}`);
+    history.replaceState(null, '', `/chatbot/hub/${key}/`);
     console.log(`Content updated for bot key: ${key}`);
 }
 
 // Function to update sidebar links
 function updateSidebarLinks(key) {
-    document.getElementById('chat-link').href = `/chatbot/start-bot/${key}`;
-    document.getElementById('file-link').href = `/chatbot/edit_bot/${key}`;
-    document.getElementById('setting-link').href = `/chatbot/hub/${key}`;
+    document.getElementById('chat-link').href = `/chatbot/start-bot/${key}/`;
+    document.getElementById('file-link').href = `/chatbot/edit_bot/${key}/`;
+    document.getElementById('setting-link').href = `/chatbot/hub/${key}/`;
     console.log(`Sidebar links updated with bot key: ${key}`);
 }
 

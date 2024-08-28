@@ -163,7 +163,7 @@ async function uploadDocument(file) {
 // Function to update content and refresh the document list
 function updateContent(key, replace = true) {
     // Always replace the URL state to avoid adding to the history stack
-    history.replaceState(null, '', `/chatbot/edit_bot/${key}`);
+    history.replaceState(null, '', `/chatbot/edit_bot/${key}/`);
     console.log(`Content updated for bot key: ${key}`);
     fetchAndDisplayDocuments(key);
 }
@@ -186,9 +186,9 @@ function setupFileManagement() {
 }
 
 function updateSidebarLinks(key) {
-    document.getElementById('chat-link').href = `/chatbot/start-bot/${key}`;
-    document.getElementById('file-link').href = `/chatbot/edit_bot/${key}`;
-    document.getElementById('setting-link').href = `/chatbot/hub/${key}`;
+    document.getElementById('chat-link').href = `/chatbot/start-bot/${key}/`;
+    document.getElementById('file-link').href = `/chatbot/edit_bot/${key}/`;
+    document.getElementById('setting-link').href = `/chatbot/hub/${key}/`;
     console.log(`Sidebar links updated with bot key: ${key}`);
 }
 

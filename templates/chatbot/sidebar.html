@@ -5,20 +5,20 @@
     <li class="item-hover">Overview</li>
     <div class="icon-group">
         <i class="fa-solid fa-message"></i>
-        <a id="chat-link" href="#">Chat</a>
+        <a id="chat-link" style="cursor: pointer;">Chat</a>
     </div>
     <li class="item-hover">Manage</li>
     <div class="icon-group">
         <p>>_</p>
-        <a id="api-link" href="#">API</a>
+        <a id="api-link" onclick="popUp()" style="cursor: pointer;">API</a>
     </div>
     <div class="icon-group">
         <i class="fa-solid fa-file"></i>
-        <a id="file-link" href="#">File</a>
+        <a id="file-link" style="cursor: pointer;">File</a>
     </div>
     <div class="icon-group">
         <i class="fa-solid fa-gear"></i>
-        <a id="setting-link" href="#">Setting</a>
+        <a id="setting-link" style="cursor: pointer;" >Setting</a>
     </div>
     <li class="item-hover">Connect</li>
     <div class="icon-group">
@@ -41,11 +41,114 @@
 <button class="hamburger-icon" onclick="toggleSidebar()">
     <i class="fa-solid fa-bars"></i>
 </button>
-
 <script>
-  document.querySelector('.hamburger-icon').addEventListener('click', function() {
-    document.querySelector('.sidebar-custom').classList.toggle('active');
-});
-
-
-</script>
+    document.querySelector('.hamburger-icon').addEventListener('click', function() {
+      document.querySelector('.sidebar-custom').classList.toggle('active');
+    });
+  
+    function popUp() {
+      // Get bot id from the URL
+      const url = new URL(window.location.href);
+      let pathnames = url.pathname.split('/');
+      let bot_id = pathnames[pathnames.length - 1];
+      if (bot_id === '') {
+        bot_id = pathnames[pathnames.length - 2];
+      }
+  
+      // Create the overlay
+      const overlay = document.createElement('div');
+      overlay.style.position = 'fixed';
+      overlay.style.top = '0';
+      overlay.style.left = '0';
+      overlay.style.width = '100%';
+      overlay.style.height = '100%';
+      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+      overlay.style.zIndex = '999';
+  
+      // Create the popup container
+      const popupContainer = document.createElement('div');
+      popupContainer.style.position = 'fixed';
+      popupContainer.style.top = '50%';
+      popupContainer.style.left = '50%';
+      popupContainer.style.transform = 'translate(-50%, -50%)';
+      popupContainer.style.width = '500px'; // Longer width for the text box
+      popupContainer.style.padding = '30px';
+      popupContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'; // Glassmorphism background
+      popupContainer.style.backdropFilter = 'blur(10px)';
+      popupContainer.style.borderRadius = '12px';
+      popupContainer.style.boxShadow = '0px 4px 30px rgba(0, 0, 0, 0.2)';
+      popupContainer.style.zIndex = '1000';
+      popupContainer.style.color = '#fff';
+      popupContainer.style.animation = 'popupAnimation 0.3s ease-out'; // Animation
+  
+      // Create the close button (cross)
+      const closeButton = document.createElement('span');
+      closeButton.innerHTML = '&times;';
+      closeButton.style.position = 'absolute';
+      closeButton.style.top = '10px';
+      closeButton.style.right = '15px';
+      closeButton.style.cursor = 'pointer';
+      closeButton.style.fontSize = '24px';
+      closeButton.style.color = '#fff';
+  
+      closeButton.onclick = () => {
+        document.body.removeChild(popupContainer);
+        document.body.removeChild(overlay);
+      };
+  
+      // Create the text element container
+      const textContainer = document.createElement('div');
+      textContainer.style.display = 'flex';
+      textContainer.style.alignItems = 'center';
+      textContainer.style.justifyContent = 'space-between';
+      textContainer.style.marginBottom = '20px';
+  
+      // Create the text element
+      const textElement = document.createElement('p');
+      textElement.textContent = `https://talkyai-production.up.railway.app/chatbot/startbot/${bot_id}`;
+      textElement.style.flex = '1';
+      textElement.style.margin = '0';
+      textElement.style.wordBreak = 'break-word';
+  
+      // Create the copy icon
+      const copyIcon = document.createElement('span');
+      copyIcon.innerHTML = '&#x2398;'; // Unicode for copy icon
+      copyIcon.style.cursor = 'pointer';
+      copyIcon.style.marginLeft = '10px';
+      copyIcon.style.fontSize = '20px';
+  
+      // Function to copy the text
+      copyIcon.onclick = () => {
+        const textToCopy = textElement.textContent;
+        navigator.clipboard.writeText(textToCopy)
+          .then(() => alert('Text copied!'))
+          .catch(err => console.error('Failed to copy text: ', err));
+      };
+  
+      // Append elements to the text container
+      textContainer.appendChild(textElement);
+      textContainer.appendChild(copyIcon);
+  
+      // Create the note element
+      const noteElement = document.createElement('p');
+      noteElement.textContent = 'Note: You can use this API in your own website';
+      noteElement.style.marginTop = '20px';
+      noteElement.style.color = '#fff';
+      noteElement.style.fontSize = '14px';
+      noteElement.style.textAlign = 'center';
+  
+      // Append elements to the popup container
+      popupContainer.appendChild(closeButton);
+      popupContainer.appendChild(textContainer);
+      popupContainer.appendChild(noteElement);
+  
+      // Add the popup container and overlay to the body
+      document.body.appendChild(overlay);
+      document.body.appendChild(popupContainer);
+    }
+  
+    // Attach the function to the button
+    document.getElementById('openPopupBtn').addEventListener('click', popUp);
+  
+  </script>
+  
