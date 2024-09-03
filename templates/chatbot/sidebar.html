@@ -45,110 +45,116 @@
     document.querySelector('.hamburger-icon').addEventListener('click', function() {
       document.querySelector('.sidebar-custom').classList.toggle('active');
     });
-  
     function popUp() {
-      // Get bot id from the URL
-      const url = new URL(window.location.href);
-      let pathnames = url.pathname.split('/');
-      let bot_id = pathnames[pathnames.length - 1];
-      if (bot_id === '') {
+    // Get bot id from the URL
+    const url = new URL(window.location.href);
+    let pathnames = url.pathname.split('/');
+    let bot_id = pathnames[pathnames.length - 1];
+    if (bot_id === '') {
         bot_id = pathnames[pathnames.length - 2];
-      }
-  
-      // Create the overlay
-      const overlay = document.createElement('div');
-      overlay.style.position = 'fixed';
-      overlay.style.top = '0';
-      overlay.style.left = '0';
-      overlay.style.width = '100%';
-      overlay.style.height = '100%';
-      overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-      overlay.style.zIndex = '999';
-  
-      // Create the popup container
-      const popupContainer = document.createElement('div');
-      popupContainer.style.position = 'fixed';
-      popupContainer.style.top = '50%';
-      popupContainer.style.left = '50%';
-      popupContainer.style.transform = 'translate(-50%, -50%)';
-      popupContainer.style.width = '500px'; // Longer width for the text box
-      popupContainer.style.padding = '30px';
-      popupContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'; // Glassmorphism background
-      popupContainer.style.backdropFilter = 'blur(10px)';
-      popupContainer.style.borderRadius = '12px';
-      popupContainer.style.boxShadow = '0px 4px 30px rgba(0, 0, 0, 0.2)';
-      popupContainer.style.zIndex = '1000';
-      popupContainer.style.color = '#fff';
-      popupContainer.style.animation = 'popupAnimation 0.3s ease-out'; // Animation
-  
-      // Create the close button (cross)
-      const closeButton = document.createElement('span');
-      closeButton.innerHTML = '&times;';
-      closeButton.style.position = 'absolute';
-      closeButton.style.top = '10px';
-      closeButton.style.right = '15px';
-      closeButton.style.cursor = 'pointer';
-      closeButton.style.fontSize = '24px';
-      closeButton.style.color = '#fff';
-  
-      closeButton.onclick = () => {
+    }
+
+    // Create the overlay
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'; // Darker background
+    overlay.style.zIndex = '999';
+
+    // Create the popup container
+    const popupContainer = document.createElement('div');
+    popupContainer.style.position = 'fixed';
+    popupContainer.style.top = '50%';
+    popupContainer.style.left = '50%';
+    popupContainer.style.transform = 'translate(-50%, -50%)';
+    popupContainer.style.width = '550px';
+    popupContainer.style.padding = '20px'; // Smaller padding
+    popupContainer.style.backgroundColor = 'rgba(255, 255, 255, 0.2)'; // Less transparent background
+    popupContainer.style.backdropFilter = 'blur(30px)'; // Stronger blur
+    popupContainer.style.borderRadius = '12px';
+    popupContainer.style.boxShadow = '0px 4px 30px rgba(0, 0, 0, 0.2)';
+    popupContainer.style.zIndex = '1000';
+    popupContainer.style.color = '#fff';
+    popupContainer.style.animation = 'popupAnimation 0.3s ease-out'; // Animation
+
+    // Create the close button (cross)
+    const closeButton = document.createElement('span');
+    closeButton.innerHTML = '&times;';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '10px';
+    closeButton.style.right = '15px';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.fontSize = '24px';
+    closeButton.style.color = '#fff';
+
+    closeButton.onclick = () => {
         document.body.removeChild(popupContainer);
         document.body.removeChild(overlay);
-      };
-  
-      // Create the text element container
-      const textContainer = document.createElement('div');
-      textContainer.style.display = 'flex';
-      textContainer.style.alignItems = 'center';
-      textContainer.style.justifyContent = 'space-between';
-      textContainer.style.marginBottom = '20px';
-  
-      // Create the text element
-      const textElement = document.createElement('p');
-      textElement.textContent = `https://talkyai-production.up.railway.app/chatbot/startbot/${bot_id}`;
-      textElement.style.flex = '1';
-      textElement.style.margin = '0';
-      textElement.style.wordBreak = 'break-word';
-  
-      // Create the copy icon
-      const copyIcon = document.createElement('span');
-      copyIcon.innerHTML = '&#x2398;'; // Unicode for copy icon
-      copyIcon.style.cursor = 'pointer';
-      copyIcon.style.marginLeft = '10px';
-      copyIcon.style.fontSize = '20px';
-  
-      // Function to copy the text
-      copyIcon.onclick = () => {
-        const textToCopy = textElement.textContent;
-        navigator.clipboard.writeText(textToCopy)
-          .then(() => alert('Text copied!'))
-          .catch(err => console.error('Failed to copy text: ', err));
-      };
-  
-      // Append elements to the text container
-      textContainer.appendChild(textElement);
-      textContainer.appendChild(copyIcon);
-  
-      // Create the note element
-      const noteElement = document.createElement('p');
-      noteElement.textContent = 'Note: You can use this API in your own website';
-      noteElement.style.marginTop = '20px';
-      noteElement.style.color = '#fff';
-      noteElement.style.fontSize = '14px';
-      noteElement.style.textAlign = 'center';
-  
-      // Append elements to the popup container
-      popupContainer.appendChild(closeButton);
-      popupContainer.appendChild(textContainer);
-      popupContainer.appendChild(noteElement);
-  
-      // Add the popup container and overlay to the body
-      document.body.appendChild(overlay);
-      document.body.appendChild(popupContainer);
-    }
-  
-    // Attach the function to the button
-    document.getElementById('openPopupBtn').addEventListener('click', popUp);
+    };
+
+    // Create the instructions element
+    const instructionsElement = document.createElement('div');
+    instructionsElement.innerHTML = `
+        <h3 style="text-align: center; margin-bottom: 15px;">Embed API in Your Website</h3>
+        <p>To embed the chatbot into your website, use the following iframe code:</p>
+        <div style="position: relative;">
+            <pre id="iframeCode" style="background-color: rgba(0, 0, 0, 0.2); padding: 10px; border-radius: 8px; position: relative;">
+&lt;iframe 
+    src="https://talkyai-production.up.railway.app/chatbot/startbot/${bot_id}"
+    frameborder="0"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+    style="
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 700px;
+        height: 400px;
+        border: 2px solid #878787;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
+        border-radius: 15px;
+    "
+&gt;&lt;/iframe&gt;
+            </pre>
+            <button id="copyButton" style="position: absolute; top: 10px; right: 10px; background-color: transparent; border: none; cursor: pointer;">
+                <i class="fa-solid fa-copy" style="font-size: 20px; color: #fff;"></i>
+            </button>
+        </div>
+        <p>Follow these steps:</p>
+        <ol>
+            <li>Click the "Copy" button to copy the iframe code.</li>
+            <li>Paste it into the HTML of the page where you want the chatbot to appear.</li>
+            <li>Customize the <code>width</code> and <code>height</code> properties as needed to fit your design.</li>
+        </ol>
+        <p>Note: You can also adjust the styling and other properties to match the look and feel of your website.</p>
+    `;
+    instructionsElement.style.marginBottom = '15px'; // Smaller bottom margin
+
+    // Append elements to the popup container
+    popupContainer.appendChild(closeButton);
+    popupContainer.appendChild(instructionsElement);
+
+    // Add the popup container and overlay to the body
+    document.body.appendChild(overlay);
+    document.body.appendChild(popupContainer);
+
+    // Attach copy functionality
+    document.getElementById('copyButton').addEventListener('click', () => {
+        const iframeCode = document.getElementById('iframeCode').textContent;
+        navigator.clipboard.writeText(iframeCode)
+            .then(() => alert('Iframe code copied to clipboard!'))
+            .catch(err => console.error('Failed to copy text: ', err));
+    });
+}
+
+// Attach the function to the button
+document.getElementById('openPopupBtn').addEventListener('click', popUp);
+
   
   </script>
   
